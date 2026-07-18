@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pedez Watch — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bk:#080808;--bk2:#111;--bk3:#1a1a1a;--gd:#c9a84c;--gd2:#e8c97a;--gd3:#a07830;--wh:#f5f0e8;--wh2:#ddd8ce;--mu:#6e6e66;--mu2:#4a4a44;--green:#5fc86a;--red:#e24b4a;--blue:#64b5f6;--yellow:#f5c842}
+body{background:var(--bk);color:var(--wh);font-family:'Montserrat',sans-serif;font-weight:300;display:flex;min-height:100vh}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--gd3)}
+button,input,select,textarea{font-family:'Montserrat',sans-serif;cursor:pointer}
+input,select,textarea{cursor:text}
+
+.sidebar{width:240px;background:var(--bk2);border-right:1px solid rgba(201,168,76,.12);display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0;z-index:50;overflow-y:auto}
+.sb-logo{padding:26px 22px 22px;border-bottom:1px solid rgba(201,168,76,.1)}
+.sb-brand{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;letter-spacing:3px;color:var(--wh)}
+.sb-brand span{color:var(--gd)}
+.sb-sub{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gd3);margin-top:4px}
+.sb-nav{padding:12px 0;flex:1}
+.sb-sec-label{font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--mu2);padding:10px 22px 5px;margin-top:6px}
+.sb-btn{display:flex;align-items:center;gap:12px;padding:11px 22px;font-size:11px;color:var(--mu);border:none;background:none;width:100%;text-align:left;border-left:2px solid transparent;transition:all .3s;position:relative}
+.sb-btn:hover{color:var(--wh);background:rgba(201,168,76,.04);cursor:pointer}
+.sb-btn.on{color:var(--gd);border-left-color:var(--gd);background:rgba(201,168,76,.07)}
+.sb-icon{width:18px;font-size:14px;text-align:center;flex-shrink:0}
+.sb-badge{position:absolute;right:16px;top:50%;transform:translateY(-50%);background:var(--gd);color:var(--bk);font-size:9px;font-weight:700;border-radius:10px;padding:2px 7px}
+.sb-foot{padding:18px 22px;border-top:1px solid rgba(201,168,76,.1)}
+.sb-user{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.sb-av{width:34px;height:34px;background:var(--gd3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--bk);flex-shrink:0}
+.sb-name{font-size:12px;color:var(--wh);font-weight:500}
+.sb-role{font-size:9px;color:var(--mu);margin-top:1px}
+.btn-logout{width:100%;background:transparent;border:1px solid rgba(201,168,76,.18);color:var(--mu);padding:8px;font-size:9px;letter-spacing:2px;text-transform:uppercase;transition:all .3s}
+.btn-logout:hover{border-color:var(--gd);color:var(--gd)}
+
+.main{flex:1;margin-left:240px;display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:var(--bk2);border-bottom:1px solid rgba(201,168,76,.1);padding:15px 30px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40}
+.tb-title{font-family:'Playfair Display',serif;font-size:19px;color:var(--wh)}
+.tb-title em{color:var(--gd);font-style:italic;font-size:13px;margin-left:8px}
+.tb-right{display:flex;gap:10px;align-items:center}
+.search{background:var(--bk3);border:1px solid rgba(201,168,76,.15);color:var(--wh);padding:8px 13px;font-size:11px;outline:none;width:190px;transition:border-color .3s}
+.search:focus{border-color:var(--gd)}
+.search::placeholder{color:var(--mu2)}
+.btn-gd{background:var(--gd);border:1px solid var(--gd);color:var(--bk);padding:9px 18px;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:600;transition:all .3s}
+.btn-gd:hover{background:var(--gd2)}
+.btn-ol{background:transparent;border:1px solid rgba(201,168,76,.4);color:var(--gd);padding:9px 18px;font-size:9px;letter-spacing:2px;text-transform:uppercase;transition:all .3s}
+.btn-ol:hover{background:var(--gd);color:var(--bk);border-color:var(--gd)}
+.btn-sm{padding:6px 13px;font-size:9px}
+
+.content{padding:28px 30px;flex:1}
+.sec{display:none}
+.sec.on{display:block}
+
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:26px}
+.sc{background:var(--bk2);border:1px solid rgba(201,168,76,.1);padding:22px;position:relative;overflow:hidden}
+.sc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gd3),var(--gd2),transparent)}
+.sc-icon{position:absolute;top:16px;right:16px;font-size:24px;opacity:.12}
+.sc-label{font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--mu);margin-bottom:9px}
+.sc-val{font-family:'Playfair Display',serif;font-size:30px;color:var(--wh);line-height:1}
+.sc-sub{font-size:10px;margin-top:6px}
+.sc-sub.up{color:var(--green)}.sc-sub.warn{color:var(--yellow)}.sc-sub.danger{color:var(--red)}
+
+.panel{background:var(--bk2);border:1px solid rgba(201,168,76,.1);margin-bottom:20px}
+.panel-hd{padding:15px 20px;border-bottom:1px solid rgba(201,168,76,.08);display:flex;align-items:center;justify-content:space-between}
+.panel-title{font-size:12px;font-weight:500;color:var(--wh);letter-spacing:.5px}
+.panel-sub{font-size:11px;color:var(--mu)}
+.panel-body{padding:18px 20px}
+
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{padding:10px 14px;text-align:left;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gd3);border-bottom:1px solid rgba(201,168,76,.08);font-weight:400;white-space:nowrap}
+.tbl td{padding:12px 14px;font-size:12px;color:var(--wh2);border-bottom:1px solid rgba(201,168,76,.05);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:rgba(201,168,76,.02)}
+.badge{display:inline-block;padding:3px 9px;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600}
+.badge.pending{background:rgba(245,200,66,.12);color:var(--yellow)}
+.badge.awaiting_payment{background:rgba(100,181,246,.12);color:var(--blue)}
+.badge.confirmed{background:rgba(95,200,106,.12);color:var(--green)}
+.badge.shipped{background:rgba(100,181,246,.15);color:var(--blue)}
+.badge.delivered{background:rgba(95,200,106,.18);color:var(--green)}
+.badge.cancelled{background:rgba(226,75,74,.12);color:var(--red)}
+.badge.pending_verification{background:rgba(245,200,66,.12);color:var(--yellow)}
+.badge.verified{background:rgba(95,200,106,.12);color:var(--green)}
+.badge.rejected{background:rgba(226,75,74,.12);color:var(--red)}
+.act-btn{background:none;border:1px solid rgba(201,168,76,.2);color:var(--mu);padding:4px 10px;font-size:9px;letter-spacing:1px;text-transform:uppercase;transition:all .3s;margin-right:3px}
+.act-btn:hover{border-color:var(--gd);color:var(--gd)}
+.act-btn.danger:hover{border-color:var(--red);color:var(--red)}
+.act-btn.ok:hover{border-color:var(--green);color:var(--green)}
+
+.chart-bars{display:flex;align-items:flex-end;gap:10px;height:110px;padding:0 4px}
+.cb-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px}
+.cb{width:100%;min-height:4px;border-radius:1px 1px 0 0;background:linear-gradient(to top,var(--gd3),var(--gd2));position:relative;transition:height 1s cubic-bezier(.34,1.56,.64,1)}
+.cb:hover{opacity:.8}
+.cb-val{position:absolute;top:-17px;left:50%;transform:translateX(-50%);font-size:9px;color:var(--gd2);white-space:nowrap;opacity:0;transition:opacity .2s}
+.cb:hover .cb-val{opacity:1}
+.cb-lbl{font-size:9px;color:var(--mu)}
+
+.fg{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.flbl{font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gd3)}
+.finput,.fsel,.fta{background:var(--bk3);border:1px solid rgba(201,168,76,.18);color:var(--wh);padding:11px 13px;font-size:12px;outline:none;transition:border-color .3s;width:100%}
+.finput:focus,.fsel:focus,.fta:focus{border-color:var(--gd)}
+.fsel option{background:var(--bk2)}
+.fta{resize:vertical;min-height:78px}
+.finput::placeholder,.fta::placeholder{color:var(--mu2)}
+.fgrow{display:grid;gap:14px;margin-bottom:0}
+.fgrow.c2{grid-template-columns:1fr 1fr}
+.fgrow.c3{grid-template-columns:1fr 1fr 1fr}
+
+.upload-zone{border:2px dashed rgba(201,168,76,.28);height:170px;display:flex;align-items:center;justify-content:center;background:var(--bk3);overflow:hidden;transition:border-color .3s;position:relative;cursor:pointer;margin-bottom:10px}
+.upload-zone:hover{border-color:var(--gd)}
+.uz-placeholder{text-align:center;pointer-events:none}
+.uz-placeholder .icon{font-size:30px;display:block;margin-bottom:8px;opacity:.45}
+.uz-placeholder p{font-size:12px;color:var(--wh);margin-bottom:3px}
+.uz-placeholder small{font-size:10px;color:var(--mu)}
+.uz-preview{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}
+.uz-status{font-size:10px;color:var(--mu);margin-bottom:14px}
+
+.toggle{width:40px;height:21px;background:rgba(201,168,76,.12);border-radius:11px;position:relative;transition:background .3s;border:none;flex-shrink:0}
+.toggle.on{background:var(--gd)}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:15px;height:15px;background:var(--wh);border-radius:50%;transition:left .3s}
+.toggle.on::after{left:22px}
+
+.offer-row{display:flex;align-items:center;justify-content:space-between;background:var(--bk3);border:1px solid rgba(201,168,76,.08);padding:15px 17px;margin-bottom:2px;transition:border-color .3s}
+.offer-row:hover{border-color:rgba(201,168,76,.2)}
+.offer-name{font-size:13px;color:var(--wh);margin-bottom:3px}
+.offer-desc{font-size:11px;color:var(--mu)}
+
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.photo-card{background:var(--bk3);border:1px solid rgba(201,168,76,.1);overflow:hidden;cursor:pointer;transition:border-color .3s}
+.photo-card:hover{border-color:rgba(201,168,76,.35)}
+.pc-img{height:90px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.pc-img img{width:100%;height:100%;object-fit:cover}
+.pc-img .no-img{font-size:26px;opacity:.18}
+.pc-overlay{position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}
+.photo-card:hover .pc-overlay{opacity:1}
+.pc-body{padding:9px 11px}
+.pc-name{font-size:11px;color:var(--wh);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
+.pc-status{font-size:10px;color:var(--mu)}
+.pc-status.ok{color:var(--green)}
+
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:600;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s;backdrop-filter:blur(6px)}
+.modal-bg.open{opacity:1;pointer-events:all}
+.modal-box{background:var(--bk2);border:1px solid rgba(201,168,76,.2);width:490px;max-width:94vw;max-height:90vh;overflow-y:auto;transform:scale(.96) translateY(14px);transition:all .4s;padding:32px}
+.modal-bg.open .modal-box{transform:scale(1) translateY(0)}
+.modal-title{font-family:'Playfair Display',serif;font-size:21px;color:var(--wh);margin-bottom:24px}
+.modal-title em{color:var(--gd2);font-style:italic}
+
+.toast{position:fixed;bottom:22px;right:22px;background:var(--bk2);border:1px solid var(--gd);color:var(--wh);padding:12px 20px;font-size:12px;z-index:900;transform:translateY(14px);opacity:0;transition:all .4s;pointer-events:none;max-width:300px}
+.toast.show{transform:translateY(0);opacity:1}
+
+.tier-badge{font-size:9px;letter-spacing:1px;padding:2px 8px;text-transform:uppercase;font-weight:600}
+.tier-badge.Bronze{background:rgba(160,120,48,.15);color:var(--gd3)}
+.tier-badge.Silver{background:rgba(180,180,190,.15);color:#aaa}
+.tier-badge.Gold{background:rgba(201,168,76,.15);color:var(--gd)}
+.tier-badge.Platinum{background:rgba(150,200,220,.15);color:#90c8dc}
+.tier-badge.Diamond{background:rgba(120,180,255,.15);color:#78b4ff}
+.user-av{width:28px;height:28px;border-radius:50%;background:var(--gd3);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--bk)}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+
+<!-- EDIT MODAL -->
+<div class="modal-bg" id="editModal">
+  <div class="modal-box">
+    <div class="modal-title">Edit <em id="editTitle">Watch</em></div>
+    <input type="hidden" id="editId">
+    <div class="fgrow c2" style="margin-bottom:14px">
+      <div class="fg"><label class="flbl">Name</label><input class="finput" id="en"></div>
+      <div class="fg"><label class="flbl">Brand</label><input class="finput" id="eb"></div>
+    </div>
+    <div class="fgrow c3" style="margin-bottom:14px">
+      <div class="fg"><label class="flbl">Category</label><select class="fsel" id="ec"><option value="luxury">Luxury</option><option value="sport">Sport</option><option value="classic">Classic</option></select></div>
+      <div class="fg"><label class="flbl">Price ($)</label><input class="finput" type="number" id="ep"></div>
+      <div class="fg"><label class="flbl">Discount %</label><input class="finput" type="number" id="ed" min="0" max="80"></div>
+    </div>
+    <div class="fgrow c2" style="margin-bottom:14px">
+      <div class="fg"><label class="flbl">Stock</label><input class="finput" type="number" id="es"></div>
+      <div class="fg"><label class="flbl">Reference</label><input class="finput" id="er"></div>
+    </div>
+    <div class="fg" style="margin-bottom:20px"><label class="flbl">Description</label><textarea class="fta" id="edc"></textarea></div>
+    <div style="display:flex;gap:10px">
+      <button class="btn-gd" onclick="saveEdit()">Save Changes</button>
+      <button class="btn-ol" onclick="closeEditModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-brand" style="display:flex;align-items:center;gap:10px"><svg class="pedez-logo-icon" width="30" height="30" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg-g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f5e8a8"/><stop offset="40%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#7a5010"/></linearGradient><linearGradient id="lg-v" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#eedb70"/><stop offset="50%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#7a5010"/></linearGradient><linearGradient id="lg-b" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2e2208"/><stop offset="25%" stop-color="#d4a83c"/><stop offset="50%" stop-color="#f0d060"/><stop offset="75%" stop-color="#4a3208"/><stop offset="100%" stop-color="#c9a84c"/></linearGradient></defs><g stroke-linecap="round"><g stroke="#c9a84c" stroke-width="0.9"><line x1="18" y1="1" x2="18" y2="4.2"/><line x1="27.5" y1="3.85" x2="25.8" y2="6.75"/><line x1="34.15" y1="10.5" x2="31.25" y2="12.2"/><line x1="35" y1="18" x2="31.8" y2="18"/><line x1="34.15" y1="25.5" x2="31.25" y2="23.8"/><line x1="27.5" y1="32.15" x2="25.8" y2="29.25"/><line x1="18" y1="35" x2="18" y2="31.8"/><line x1="8.5" y1="32.15" x2="10.2" y2="29.25"/><line x1="1.85" y1="25.5" x2="4.75" y2="23.8"/><line x1="1" y1="18" x2="4.2" y2="18"/><line x1="1.85" y1="10.5" x2="4.75" y2="12.2"/><line x1="8.5" y1="3.85" x2="10.2" y2="6.75"/></g><g stroke="#3a2a08" stroke-width="0.5"><line x1="23.2" y1="1.7" x2="22.2" y2="4.7"/><line x1="30.8" y1="5.2" x2="29" y2="7.6"/><line x1="34.8" y1="12.8" x2="32.4" y2="14.6"/><line x1="34.3" y1="22.8" x2="31.3" y2="22.1"/><line x1="30.8" y1="30.8" x2="29" y2="28.4"/><line x1="23.2" y1="34.3" x2="22.2" y2="31.3"/><line x1="12.8" y1="34.3" x2="13.8" y2="31.3"/><line x1="5.2" y1="30.8" x2="7" y2="28.4"/><line x1="1.7" y1="22.8" x2="4.7" y2="22.1"/><line x1="1.7" y1="13.2" x2="4.7" y2="13.9"/><line x1="5.2" y1="5.2" x2="7" y2="7.6"/><line x1="12.8" y1="1.7" x2="13.8" y2="4.7"/></g></g><circle cx="18" cy="18" r="17" fill="none" stroke="url(#lg-b)" stroke-width="2.2"/><circle cx="18" cy="18" r="15.8" fill="none" stroke="#0a0a0a" stroke-width="0.3"/><circle cx="18" cy="18" r="15" fill="#070707"/><circle cx="18" cy="18" r="15" fill="none" stroke="#1a1a1a" stroke-width="0.4"/><polygon points="18,3 19.4,10 18,8 16.6,10" fill="url(#lg-v)"/><polygon points="18,33 18.8,27 18,29 17.2,27" fill="#181818"/><polygon points="33,18 27,18.8 29,18 27,17.2" fill="#161616"/><polygon points="3,18 9,18.8 7,18 9,17.2" fill="#161616"/><text x="18" y="17" font-family="Playfair Display,Georgia,serif" font-size="5.2" font-weight="700" letter-spacing="0.8" fill="url(#lg-g)" text-anchor="middle">PEDEZ</text><line x1="10" y1="19" x2="26" y2="19" stroke="#2a2a2a" stroke-width="0.4"/><path d="M17.2,20.5 L16.8,11 L18,8 L19.2,11 L18.8,20.5 Z" fill="url(#lg-g)"/><path d="M17.6,20.5 L17.2,8.5 L18,6 L18.8,8.5 L18.4,20.5 Z" fill="#888" transform="rotate(34,18,18)"/><line x1="18" y1="22" x2="18" y2="5" stroke="#c9a84c" stroke-width="0.5" transform="rotate(194,18,18)"/><circle cx="18" cy="23" r="1.4" fill="#c9a84c" transform="rotate(194,18,18)"/><circle cx="18" cy="18" r="2.2" fill="#060606" stroke="url(#lg-b)" stroke-width="0.8"/><circle cx="18" cy="18" r="1" fill="#c9a84c"/><rect x="15.5" y="0.5" width="5" height="3" rx="1" fill="#0e0e0e" stroke="#222" stroke-width="0.4"/><rect x="15.5" y="32.5" width="5" height="3" rx="1" fill="#0e0e0e" stroke="#1a1a1a" stroke-width="0.4"/></svg><span style="font-family:Playfair Display,Georgia,serif;font-size:14px;font-weight:700;letter-spacing:3px;color:#f5f0e8">PEDEZ</span></div>
+    <div class="sb-sub">Admin Panel</div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-sec-label">Main</div>
+    <button class="sb-btn on" onclick="show('dashboard',this)"><span class="sb-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span>Dashboard</button>
+    <button class="sb-btn" onclick="show('orders',this)"><span class="sb-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>Orders<span class="sb-badge" id="oBadge" style="display:none">0</span></button>
+    <button class="sb-btn" onclick="show('payments',this)"><span class="sb-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span>Payments<span class="sb-badge" id="pBadge" style="display:none">0</span></button>
+    <div class="sb-sec-label">Catalogue</div>
+    <button class="sb-btn" onclick="show('watches',this)"><span class="sb-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><polyline points="12 9 12 12 13.5 13.5"/><path d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83m.01-10.7l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"/></svg></span>Watches</button>
+    <button class="sb-btn" onclick="show('add',this)"><span class="sb-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></span>Add Watch</button>
+    <button class="sb-btn" onclick="show('photos',this)"><span class="sb-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span>Photos</button>
+    <div class="sb-sec-label">Manage</div>
+    <button class="sb-btn" onclick="show('offers',this)"><span class="sb-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span>Offers & Prices</button>
+    <button class="sb-btn" onclick="show('reviews',this)"><span class="sb-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>Reviews</button>
+    <button class="sb-btn" onclick="show('music',this)"><span class="sb-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span>Music</button>
+    <button class="sb-btn" onclick="show('users',this)"><span class="sb-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>Customers</button>
+  </nav>
+  <div class="sb-foot">
+    <div class="sb-user">
+      <div class="sb-av" id="sbAv">AD</div>
+      <div><div class="sb-name" id="sbName">Admin</div><div class="sb-role">Super Admin</div></div>
+    </div>
+    <button class="btn-logout" onclick="logout()">Sign Out</button>
+  </div>
+</aside>
+
+<!-- MAIN AREA -->
+<div class="main">
+  <div class="topbar">
+    <div class="tb-title" id="tbTitle">Dashboard<em>Overview</em></div>
+    <div class="tb-right">
+      <input class="search" placeholder="Search..." oninput="search(this.value)">
+      <button class="btn-ol btn-sm" onclick="window.open('/')">View Site</button>
+      <button class="btn-gd btn-sm" onclick="show('add',null)">+ Add Watch</button>
+    </div>
+  </div>
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div class="sec on" id="sec-dashboard">
+      <div class="stat-row">
+        <div class="sc"><div class="sc-icon">⌚</div><div class="sc-label">Total Watches</div><div class="sc-val" id="stW">—</div><div class="sc-sub up">Active listings</div></div>
+        <div class="sc"><div class="sc-icon">◱</div><div class="sc-label">Total Orders</div><div class="sc-val" id="stO">—</div><div class="sc-sub up" id="stOsub">All time</div></div>
+        <div class="sc"><div class="sc-icon">$</div><div class="sc-label">Revenue</div><div class="sc-val" id="stR">—</div><div class="sc-sub up">Confirmed</div></div>
+        <div class="sc"><div class="sc-icon">!</div><div class="sc-label">Needs Attention</div><div class="sc-val" id="stP">—</div><div class="sc-sub warn" id="stPsub">Loading...</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:18px;margin-bottom:18px">
+        <div class="panel">
+          <div class="panel-hd"><span class="panel-title">Sales Overview</span><span class="panel-sub">Monthly revenue trend</span></div>
+          <div style="padding:18px 20px">
+            <div class="chart-bars" id="chartBars"></div>
+            <div style="display:flex;gap:10px;margin-top:10px;padding:0 4px" id="chartLabels"></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-hd"><span class="panel-title">Quick Stats</span></div>
+          <div class="panel-body" style="display:flex;flex-direction:column;gap:13px">
+            <div style="display:flex;justify-content:space-between"><span style="font-size:11px;color:var(--mu)">Customers</span><span style="font-size:12px;color:var(--wh)" id="qsU">—</span></div>
+            <div style="display:flex;justify-content:space-between"><span style="font-size:11px;color:var(--mu)">Pending Payments</span><span style="font-size:12px;color:var(--yellow)" id="qsP">—</span></div>
+            <div style="display:flex;justify-content:space-between"><span style="font-size:11px;color:var(--mu)">Best Seller</span><span style="font-size:12px;color:var(--gd2);text-align:right;max-width:130px" id="qsT">—</span></div>
+            <div style="height:1px;background:rgba(201,168,76,.08)"></div>
+            <button class="btn-ol btn-sm" style="width:100%" onclick="show('orders',null)">View All Orders →</button>
+          </div>
+          <!-- LOW STOCK ALERT -->
+          <div id="lowStockAlert" style="display:none;padding:14px 20px;border-top:1px solid rgba(226,75,74,.15);background:rgba(226,75,74,.04)"></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-hd"><span class="panel-title">Recent Orders</span><span class="panel-sub" style="color:var(--gd);cursor:pointer" onclick="show('orders',null)">View all →</span></div>
+        <table class="tbl"><thead><tr><th>Order</th><th>Customer</th><th>Items</th><th>Amount</th><th>M-Pesa</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody id="dashOT"></tbody></table>
+      </div>
+    </div>
+
+    <!-- ORDERS -->
+    <div class="sec" id="sec-orders">
+      <div class="panel">
+        <div class="panel-hd"><span class="panel-title">All Orders</span>
+          <select class="fsel" style="width:auto;padding:6px 12px;font-size:10px" id="oFilter" onchange="loadOrders(this.value)">
+            <option value="">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="awaiting_payment">Awaiting Payment</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="shipped">Shipped</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <table class="tbl"><thead><tr><th>Order</th><th>Customer</th><th>Phone</th><th>Items</th><th>Amount</th><th>M-Pesa Code</th><th>Delivery</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="ordersT"></tbody></table>
+      </div>
+    </div>
+
+    <!-- PAYMENTS -->
+    <div class="sec" id="sec-payments">
+      <div class="panel">
+        <div class="panel-hd"><span class="panel-title">M-Pesa Payment Verifications</span><span class="panel-sub">Verify the code matches the amount, then confirm or reject</span></div>
+        <table class="tbl"><thead><tr><th>Order</th><th>Customer</th><th>Amount</th><th>M-Pesa Code</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="paymentsT"></tbody></table>
+      </div>
+    </div>
+
+    <!-- WATCHES -->
+    <div class="sec" id="sec-watches">
+      <div class="panel">
+        <div class="panel-hd"><span class="panel-title">Watch Inventory</span><span class="panel-sub" id="wCount">—</span></div>
+        <table class="tbl"><thead><tr><th>Name</th><th>Brand</th><th>Category</th><th>Price</th><th>Discount</th><th>Stock</th><th>Photo</th><th>Actions</th></tr></thead>
+        <tbody id="watchesT"></tbody></table>
+      </div>
+    </div>
+
+    <!-- ADD WATCH -->
+    <div class="sec" id="sec-add">
+      <div class="panel">
+        <div class="panel-hd"><span class="panel-title">Add New Timepiece</span></div>
+        <div class="panel-body">
+          <div class="fg">
+            <label class="flbl">Watch Photo</label>
+            <div class="upload-zone" id="uz" onclick="document.getElementById('pf').click()"
+              ondragover="event.preventDefault();this.style.borderColor='var(--gd)'"
+              ondragleave="this.style.borderColor='rgba(201,168,76,.28)'"
+              ondrop="handleDrop(event)">
+              <div class="uz-placeholder" id="uzp"><span class="icon">📸</span><p>Click or drag & drop photo</p><small>JPG, PNG, WEBP — max 10MB</small></div>
+              <img id="uzprev" class="uz-preview">
+            </div>
+            <input type="file" id="pf" accept="image/*" style="display:none" onchange="previewPic(this)">
+            <div class="uz-status" id="uzs"></div>
+          </div>
+          <div class="fgrow c2">
+            <div class="fg"><label class="flbl">Watch Name *</label><input class="finput" id="aN" placeholder="e.g. Submariner Date"></div>
+            <div class="fg"><label class="flbl">Brand *</label><input class="finput" id="aB" placeholder="e.g. Rolex"></div>
+          </div>
+          <div class="fgrow c3">
+            <div class="fg"><label class="flbl">Category</label><select class="fsel" id="aC"><option value="luxury">Luxury</option><option value="sport">Sport</option><option value="classic">Classic</option></select></div>
+            <div class="fg"><label class="flbl">Price (USD) *</label><input class="finput" type="number" id="aP" placeholder="0"></div>
+            <div class="fg"><label class="flbl">Discount %</label><input class="finput" type="number" id="aD" placeholder="0" min="0" max="80"></div>
+          </div>
+          <div class="fgrow c3">
+            <div class="fg"><label class="flbl">Stock Qty</label><input class="finput" type="number" id="aSt" value="10"></div>
+            <div class="fg"><label class="flbl">Reference No.</label><input class="finput" id="aR" placeholder="e.g. 126610LN"></div>
+            <div class="fg"><label class="flbl">Movement</label><select class="fsel" id="aM"><option>Automatic</option><option>Manual</option><option>Quartz</option><option>Solar</option></select></div>
+          </div>
+          <div class="fg"><label class="flbl">Description</label><textarea class="fta" id="aDsc" placeholder="Describe the timepiece — its history and what makes it special..."></textarea></div>
+          <div style="display:flex;gap:12px;margin-top:8px">
+            <button class="btn-gd" onclick="addWatch()">Publish Watch</button>
+            <button class="btn-ol" onclick="clearAdd()">Clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHOTOS -->
+    <div class="sec" id="sec-photos">
+      <div class="panel">
+        <div class="panel-hd"><span class="panel-title">Watch Photos</span><span class="panel-sub">Click any watch to upload or change its photo</span></div>
+        <div class="panel-body"><div class="photo-grid" id="photoGrid"></div></div>
+      </div>
+    </div>
+
+    <!-- OFFERS & PRICES -->
+    <div class="sec" id="sec-offers">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px">
+        <div class="panel">
+          <div class="panel-hd"><span class="panel-title">Active Promotions</span></div>
+          <div class="panel-body">
+            <div class="offer-row"><div><div class="offer-name">Golden Week Sale</div><div class="offer-desc">30% off Luxury watches</div></div><button class="toggle on" onclick="this.classList.toggle('on');toast('Offer '+(this.classList.contains('on')?'enabled':'paused'))"></button></div>
+            <div class="offer-row"><div><div class="offer-name">New Member Discount</div><div class="offer-desc">10% off first order</div></div><button class="toggle on" onclick="this.classList.toggle('on');toast('Offer '+(this.classList.contains('on')?'enabled':'paused'))"></button></div>
+            <div class="offer-row"><div><div class="offer-name">Sport Flash Sale</div><div class="offer-desc">15% off Sport category</div></div><button class="toggle" onclick="this.classList.toggle('on');toast('Offer '+(this.classList.contains('on')?'enabled':'paused'))"></button></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-hd"><span class="panel-title">Update Watch Price</span></div>
+          <div class="panel-body">
+            <div class="fg"><label class="flbl">Select Watch</label>
+              <select class="fsel" id="prW" onchange="loadPW(this.value)"><option value="">Choose watch...</option></select></div>
+            <div class="fg"><label class="flbl">Current Price</label><input class="finput" id="prC" readonly style="opacity:.6"></div>
+            <div class="fg"><label class="flbl">New Price (USD)</label><input class="finput" type="number" id="prN" placeholder="Enter new price"></div>
+            <div class="fg"><label class="flbl">Discount %</label><input class="finput" type="number" id="prD" placeholder="0" min="0" max="80"></div>
+            <button class="btn-gd" style="width:100%;margin-top:6px" onclick="updatePrice()">Update Price</button>
+          </div>
+        </div>
+      </div>
+      <!-- BULK PRICE UPDATE -->
+      <div class="panel" style="margin-bottom:18px">
+        <div class="panel-hd"><span class="panel-title">Bulk Price Update</span><span class="panel-sub">Update all watches in a category at once</span></div>
+        <div class="panel-body" style="display:grid;grid-template-columns:1fr 1fr 100px 120px;gap:12px;align-items:flex-end">
+          <div class="fg" style="margin:0"><label class="flbl">Category</label>
+            <select class="fsel" id="bulkCat">
+              <option value="luxury">Luxury</option>
+              <option value="sport">Sport</option>
+              <option value="classic">Classic</option>
+            </select></div>
+          <div class="fg" style="margin:0"><label class="flbl">Percent (%)</label>
+            <input class="finput" type="number" id="bulkPct" placeholder="e.g. 10" min="1" max="80"></div>
+          <div class="fg" style="margin:0"><label class="flbl">Direction</label>
+            <select class="fsel" id="bulkType">
+              <option value="decrease">Decrease</option>
+              <option value="increase">Increase</option>
+            </select></div>
+          <button class="btn-gd" onclick="doBulkPrice()">Apply</button>
+        </div>
+      </div>
+      <!-- ABANDONED CARTS -->
+      <div class="panel">
+        <div class="panel-hd"><span class="panel-title">Abandoned Carts</span><button class="btn-ol btn-sm" onclick="loadAbandonedCarts()">Refresh</button></div>
+        <table class="tbl"><thead><tr><th>Phone</th><th>Email</th><th>Items</th><th>Time</th></tr></thead>
+        <tbody id="abandonedT"><tr><td colspan="4" style="text-align:center;color:var(--mu);padding:28px">Click Refresh to load</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <!-- REVIEWS -->
+    <div class="sec" id="sec-reviews">
+      <div class="panel">
+        <div class="panel-hd"><span class="panel-title">Customer Reviews</span><span class="panel-sub" id="reviewCount">—</span></div>
+        <table class="tbl"><thead><tr><th>Watch</th><th>Reviewer</th><th>Rating</th><th>Title</th><th>Review</th><th>Date</th><th>Action</th></tr></thead>
+        <tbody id="reviewsT"><tr><td colspan="7" style="text-align:center;color:var(--mu);padding:28px">Loading reviews...</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <!-- MUSIC -->
+    <div class="sec" id="sec-music">
+      <div style="display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:start">
+        <!-- Track list -->
+        <div class="panel">
+          <div class="panel-hd">
+            <span class="panel-title">Playlist</span>
+            <span class="panel-sub" id="musicCount">— tracks</span>
+          </div>
+          <div id="musicTracksList" style="min-height:120px">
+            <div style="text-align:center;padding:40px;color:var(--mu);font-size:12px">Loading...</div>
+          </div>
+        </div>
+        <!-- Add / Edit track -->
+        <div class="panel" style="position:sticky;top:80px">
+          <div class="panel-hd"><span class="panel-title" id="musicFormTitle">Add Track</span></div>
+          <div class="panel-body">
+            <input type="hidden" id="musicEditId">
+            <div class="fg">
+              <label class="flbl">Track Name</label>
+              <input class="finput" id="musicName" placeholder="e.g. Smooth Jazz">
+            </div>
+            <div class="fg">
+              <label class="flbl">Artist / Station</label>
+              <input class="finput" id="musicArtist" placeholder="e.g. Radio Swiss Jazz">
+            </div>
+            <div class="fg">
+              <label class="flbl">Stream URL</label>
+              <input class="finput" id="musicSrc" placeholder="https://stream.example.com/mp3">
+              <div style="font-size:10px;color:var(--mu);margin-top:5px;line-height:1.6">Paste any direct MP3 stream URL. Works with Zeno.fm, SRG-SSR, IceCast, Shoutcast streams.</div>
+            </div>
+            <div class="fg" style="display:flex;align-items:center;gap:10px">
+              <input type="checkbox" id="musicActive" checked style="accent-color:var(--gd);width:14px;height:14px">
+              <label class="flbl" style="margin:0">Active (visible to customers)</label>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:6px">
+              <button class="btn-gd" style="flex:1" onclick="saveTrack()">Save Track</button>
+              <button class="btn-ol" onclick="resetMusicForm()">Clear</button>
+            </div>
+            <!-- Quick presets -->
+            <div style="margin-top:18px;padding-top:14px;border-top:1px solid rgba(201,168,76,.08)">
+              <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--mu);margin-bottom:10px">Quick Presets</div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <button class="preset-btn" onclick="fillPreset('Smooth Jazz','Radio Swiss Jazz','https://stream.srg-ssr.ch/m/rsj/mp3_128')">🎷 Smooth Jazz</button>
+                <button class="preset-btn" onclick="fillPreset('Classical Piano','Radio Swiss Classic','https://stream.srg-ssr.ch/m/rsc_de/mp3_128')">🎹 Classical Piano</button>
+                <button class="preset-btn" onclick="fillPreset('Bossa Nova Lounge','Café vibes','https://streams.ilovemusic.de/iloveradio17.mp3')">🌴 Bossa Nova</button>
+                <button class="preset-btn" onclick="fillPreset('Lo-Fi Chill','Ambient focus','https://stream.zeno.fm/f3wvbbqmdg8uv')">🌙 Lo-Fi Chill</button>
+                <button class="preset-btn" onclick="fillPreset('Jazz & Blues','Late night','https://stream.zeno.fm/yn65m63h8zzuv')">🍸 Jazz & Blues</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- USERS -->
+    <div class="sec" id="sec-users">
+      <div class="panel">
+        <div class="panel-hd"><span class="panel-title">Customers</span><span class="panel-sub" id="uCount">—</span></div>
+        <table class="tbl"><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Points</th><th>Tier</th><th>Orders</th><th>Joined</th></tr></thead>
+        <tbody id="usersT"></tbody></table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const API=window.location.origin+'/api', BASE=window.location.origin;
+let token=localStorage.getItem('pz_token'), user=JSON.parse(localStorage.getItem('pz_user')||'null');
+let watches=[], addFile=null;
+if(!token||!user||user.role!=='admin'){window.location='/auth';}
+
+const $=id=>document.getElementById(id);
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3200);}
+
+async function api(method,path,body,isForm){
+  const h={'Authorization':'Bearer '+token};
+  if(!isForm)h['Content-Type']='application/json';
+  const opts={method,headers:h};
+  if(body&&isForm)opts.body=body;
+  else if(body)opts.body=JSON.stringify(body);
+  const r=await fetch(API+path,opts);
+  const d=await r.json();
+  if(!r.ok)throw new Error(d.error||'Failed');
+  return d;
+}
+
+const fmtD=dt=>{if(!dt)return'—';return new Date(dt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});};
+const fmtM=n=>'$'+Number(n).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+
+const TITLES={dashboard:'Dashboard<em>Overview</em>',orders:'Orders<em>All Requests</em>',payments:'Payments<em>M-Pesa Verify</em>',watches:'Watches<em>Inventory</em>',add:'Add Watch<em>New Listing</em>',photos:'Photos<em>Upload Images</em>',offers:'Offers & Prices<em>Promotions</em>',reviews:'Reviews<em>Customer Feedback</em>',music:'Music<em>Playlist Manager</em>',users:'Customers<em>All Users</em>'};
+
+function show(name,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.sb-btn').forEach(b=>b.classList.remove('on'));
+  $('sec-'+name).classList.add('on');
+  if(btn)btn.classList.add('on');
+  $('tbTitle').innerHTML=TITLES[name]||name;
+  ({dashboard:loadDash,orders:()=>loadOrders(''),payments:loadPayments,watches:loadWatches,photos:loadPhotos,offers:loadOfferWatches,reviews:loadReviews,music:loadMusic,users:loadUsers})[name]?.();
+}
+
+// DASHBOARD
+async function loadDash(){
+  try{
+    const s=await api('GET','/admin/stats');
+    // stat cards - use correct field names
+    const watches=s.watches||s.totalWatches||0;
+    const orders=s.orders||s.totalOrders||0;
+    const revenue=s.revenue||s.totalRevenue||0;
+    const pending=(s.pending||s.pendingOrders||0)+(s.awaiting||0);
+    $('stW').textContent=watches;
+    $('stO').textContent=orders;
+    $('stR').textContent='$'+Math.round(revenue).toLocaleString();
+    $('stP').textContent=pending;
+    $('stOsub').textContent=orders+' total orders';
+    $('stPsub').textContent=(s.pending||0)+' pending · '+(s.awaiting||0)+' awaiting pay';
+    $('qsU').textContent=s.users||0;
+    $('qsP').textContent=s.awaiting||0;
+    $('qsT').textContent=s.topWatch||'—';
+    // badges
+    if((s.pending||0)>0){$('oBadge').textContent=s.pending;$('oBadge').style.display='';}
+    if((s.awaiting||0)>0){$('pBadge').textContent=s.awaiting;$('pBadge').style.display='';}
+
+    // REAL chart from DB
+    const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const chartData = months.map((m,i)=>{
+      const padded=String(i+1).padStart(2,'0');
+      const entry=(s.chart||[]).find(c=>c.m===padded);
+      return {m, v:entry?entry.rev:0};
+    }).filter((_,i)=>i<=new Date().getMonth()); // only show months up to current
+    if(chartData.every(d=>d.v===0)){
+      // No real data yet — show demo
+      $('chartBars').innerHTML=`<div style="flex:1;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--mu);font-style:italic">Place orders to see revenue chart</div>`;
+      $('chartLabels').innerHTML='';
+    } else {
+      const mx=Math.max(...chartData.map(d=>d.v),1);
+      $('chartBars').innerHTML=chartData.map(d=>`<div class="cb-wrap"><div class="cb" style="height:${Math.max(4,Math.round(d.v/mx*100))}px"><div class="cb-val">$${d.v>999?(d.v/1000).toFixed(1)+'k':Math.round(d.v)}</div></div></div>`).join('');
+      $('chartLabels').innerHTML=chartData.map(d=>`<div style="flex:1;text-align:center"><span class="cb-lbl">${d.m}</span></div>`).join('');
+    }
+
+    // LOW STOCK ALERT
+    const lowStock=s.lowStock||[];
+    const lsEl=$('lowStockAlert');
+    if(lsEl){
+      if(lowStock.length){
+        lsEl.style.display='block';
+        lsEl.innerHTML=`<div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:10px">⚠ Low Stock Alert</div>`+
+          lowStock.map(w=>`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(226,75,74,.1)">
+            <span style="font-size:12px;color:var(--wh)">${w.brand} ${w.name}</span>
+            <span style="font-size:12px;color:${w.stock===0?'var(--red)':'var(--yellow)'};font-weight:600">${w.stock===0?'Out of Stock':w.stock+' left'}</span>
+          </div>`).join('');
+      } else { lsEl.style.display='none'; }
+    }
+
+    // Recent orders table
+    const recent=s.recent||s.recentOrders||[];
+    $('dashOT').innerHTML=recent.slice(0,8).map(o=>`
+      <tr>
+        <td><strong style="font-size:11px">#PW-${o.id}</strong></td>
+        <td>${o.cname||o.customer_name||'—'}</td>
+        <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px">${o.items||o.items_desc||'—'}</td>
+        <td>${fmtM(o.total)}</td>
+        <td style="font-family:monospace;font-size:11px;color:var(--gd2)">${o.mpesa_code||'—'}</td>
+        <td><span class="badge ${o.status}">${o.status.replace(/_/g,' ')}</span></td>
+        <td>${oActions(o)}</td>
+      </tr>`).join('');
+  }catch(e){toast('Error loading dashboard: '+e.message);}
+}
+
+function oActions(o){
+  if(o.status==='pending')return`<button class="act-btn ok" onclick="updateOS(${o.id},'confirmed')">Confirm</button><button class="act-btn danger" onclick="updateOS(${o.id},'cancelled')">Cancel</button>`;
+  if(o.status==='confirmed')return`<button class="act-btn" onclick="updateOS(${o.id},'shipped')">Ship</button>`;
+  if(o.status==='shipped')return`<button class="act-btn ok" onclick="updateOS(${o.id},'delivered')">Delivered</button>`;
+  if(o.status==='awaiting_payment')return`<button class="act-btn ok" onclick="updateOS(${o.id},'confirmed')">Confirm Pay</button>`;
+  return'<span style="color:var(--mu);font-size:11px">—</span>';
+}
+
+async function updateOS(id,status){
+  try{await api('PATCH',`/orders/${id}/status`,{status});toast(`Order #${id} → ${status}`);loadOrders($('oFilter')?.value||'');loadDash();}
+  catch(e){toast('Error: '+e.message);}
+}
+
+// ORDERS
+async function loadOrders(status){
+  try{
+    const url='/orders'+(status?`?status=${status}`:'');
+    const orders=await api('GET',url);
+    $('ordersT').innerHTML=orders.map(o=>`
+      <tr><td><strong>#PW-${o.id}</strong></td>
+      <td>${o.customer_name||'—'}</td>
+      <td style="font-size:11px">${o.order_phone||o.customer_phone||'—'}</td>
+      <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px">${o.items_desc||'—'}</td>
+      <td><strong>${fmtM(o.total)}</strong></td>
+      <td style="font-family:monospace;font-size:11px;color:var(--gd2);letter-spacing:1px">${o.mpesa_code||'—'}</td>
+      <td style="font-size:11px">${o.delivery||'pickup'}${o.address?'<br><span style="color:var(--mu)">'+o.address+'</span>':''}</td>
+      <td style="font-size:11px;white-space:nowrap">${fmtD(o.created_at)}</td>
+      <td><span class="badge ${o.status}">${o.status.replace(/_/g,' ')}</span></td>
+      <td>${oActions(o)}</td></tr>`).join('');
+  }catch(e){toast('Error: '+e.message);}
+}
+
+// PAYMENTS
+async function loadPayments(){
+  try{
+    const pays=await api('GET','/admin/payments');
+    $('paymentsT').innerHTML=pays.map(p=>`
+      <tr><td>#PW-${p.order_id||'—'}</td><td>${p.customer_name||'—'}</td>
+      <td><strong>${fmtM(p.amount)}</strong></td>
+      <td style="font-family:monospace;font-size:13px;color:var(--gd2);letter-spacing:2px">${p.mpesa_code||'—'}</td>
+      <td style="font-size:11px">${fmtD(p.created_at)}</td>
+      <td><span class="badge ${p.status}">${p.status.replace(/_/g,' ')}</span></td>
+      <td>${p.status==='pending_verification'?`<button class="act-btn ok" onclick="verifyPay(${p.id},'verified')">✓ Verify</button><button class="act-btn danger" onclick="verifyPay(${p.id},'rejected')">Reject</button>`:'—'}</td></tr>`).join('');
+  }catch(e){toast('Error: '+e.message);}
+}
+
+async function verifyPay(id,status){
+  try{await api('PATCH',`/admin/payments/${id}`,{status});toast('Payment '+status);loadPayments();}
+  catch(e){toast('Error: '+e.message);}
+}
+
+// WATCHES
+async function loadWatches(){
+  try{
+    watches=await api('GET','/watches');
+    $('wCount').textContent=watches.length+' watches';
+    $('watchesT').innerHTML=watches.map(w=>`
+      <tr><td><strong>${w.name}</strong></td><td>${w.brand}</td>
+      <td style="text-transform:capitalize">${w.category}</td>
+      <td>${fmtM(w.price)}</td>
+      <td style="color:${w.discount?'var(--gd)':'var(--mu)'}">${w.discount?w.discount+'% off':'—'}</td>
+      <td style="color:${w.stock<=2?'var(--red)':w.stock<=5?'var(--yellow)':'var(--green)'}">${w.stock}</td>
+      <td style="color:${w.image_url?'var(--green)':'var(--mu)'};font-size:11px">${w.image_url?'<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Photo':'No photo'}</td>
+      <td><button class="act-btn" onclick="openEdit(${w.id})">Edit</button><button class="act-btn danger" onclick="rmWatch(${w.id},'${w.name.replace(/'/g,"\\'")}')">Remove</button></td></tr>`).join('');
+  }catch(e){toast('Error: '+e.message);}
+}
+
+function openEdit(id){
+  const w=watches.find(x=>x.id===id);if(!w)return;
+  $('editId').value=id;$('editTitle').textContent=w.name;
+  $('en').value=w.name;$('eb').value=w.brand;$('ec').value=w.category;
+  $('ep').value=w.price;$('ed').value=w.discount||0;$('es').value=w.stock;
+  $('er').value=w.reference||'';$('edc').value=w.description||'';
+  $('editModal').classList.add('open');document.body.style.overflow='hidden';
+}
+function closeEditModal(){$('editModal').classList.remove('open');document.body.style.overflow='';}
+$('editModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeEditModal();});
+
+async function saveEdit(){
+  const id=$('editId').value;
+  const w=watches.find(x=>x.id==id);
+  try{
+    await api('PUT',`/watches/${id}`,{name:$('en').value,brand:$('eb').value,category:$('ec').value,price:+$('ep').value,discount:+$('ed').value||0,stock:+$('es').value,reference:$('er').value,movement:'Automatic',description:$('edc').value,image_url:w?.image_url||''});
+    toast('Watch updated!');closeEditModal();loadWatches();
+  }catch(e){toast('Error: '+e.message);}
+}
+
+async function rmWatch(id,name){
+  if(!confirm(`Remove "${name}" from the store?`))return;
+  try{await api('DELETE',`/watches/${id}`);toast(name+' removed');loadWatches();}
+  catch(e){toast('Error: '+e.message);}
+}
+
+// ADD WATCH
+function previewPic(input){
+  const file=input.files[0];if(!file)return;
+  addFile=file;
+  const r=new FileReader();
+  r.onload=e=>{$('uzprev').src=e.target.result;$('uzprev').style.display='block';$('uzp').style.display='none';$('uzs').textContent='📎 '+file.name+' ('+( file.size/1024/1024).toFixed(1)+'MB) — ready';$('uzs').style.color='var(--gd2)';};
+  r.readAsDataURL(file);
+}
+function handleDrop(e){
+  e.preventDefault();e.currentTarget.style.borderColor='rgba(201,168,76,.28)';
+  const file=e.dataTransfer.files[0];
+  if(file?.type.startsWith('image/')){const dt=new DataTransfer();dt.items.add(file);$('pf').files=dt.files;previewPic($('pf'));}
+}
+function clearAdd(){
+  ['aN','aB','aP','aD','aR','aDsc'].forEach(id=>{const el=$(id);if(el)el.value='';});
+  $('aSt').value='10';$('aC').value='luxury';$('aM').value='Automatic';
+  addFile=null;$('uzprev').style.display='none';$('uzp').style.display='block';$('uzs').textContent='';$('pf').value='';
+}
+
+async function addWatch(){
+  const name=$('aN').value.trim(),brand=$('aB').value.trim(),price=+$('aP').value;
+  if(!name||!brand||!price){toast('Name, brand and price are required');return;}
+  const btn=document.querySelector('#sec-add .btn-gd');btn.disabled=true;btn.textContent='Publishing...';
+  try{
+    const w=await api('POST','/watches',{name,brand,category:$('aC').value,price,discount:+$('aD').value||0,stock:+$('aSt').value||10,reference:$('aR').value,movement:$('aM').value,description:$('aDsc').value});
+    if(addFile){btn.textContent='Uploading photo...';const fd=new FormData();fd.append('image',addFile);await api('POST',`/upload/${w.id}`,fd,true);}
+    toast(name+' published!');clearAdd();
+  }catch(e){toast('Error: '+e.message);}
+  finally{btn.disabled=false;btn.textContent='Publish Watch';}
+}
+
+// PHOTOS
+async function loadPhotos(){
+  const ws=await api('GET','/watches');
+  $('photoGrid').innerHTML=ws.map(w=>{
+    const src=w.image_url?(w.image_url.startsWith('http')?w.image_url:BASE+w.image_url):'';
+    return`<div class="photo-card" onclick="pickPhoto(${w.id})">
+      <div class="pc-img">${src?`<img src="${src}" onerror="this.style.display='none'">`:'<span class="no-img"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span>'}
+      <div class="pc-overlay"><span style="color:#fff;font-size:10px;letter-spacing:1px">${src?'Change':'Upload'}</span></div></div>
+      <div class="pc-body"><div class="pc-name">${w.name}</div><div class="pc-status ${src?'ok':''}">${src?'<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Photo':'No photo'}</div></div>
+    </div>`;
+  }).join('');
+}
+
+function pickPhoto(wid){
+  const inp=document.createElement('input');inp.type='file';inp.accept='image/*';
+  inp.onchange=async()=>{
+    const f=inp.files[0];if(!f)return;toast('Uploading...');
+    try{const fd=new FormData();fd.append('image',f);await api('POST',`/upload/${wid}`,fd,true);toast('Photo uploaded!');loadPhotos();}
+    catch(e){toast('Error: '+e.message);}
+  };
+  inp.click();
+}
+
+// OFFERS & PRICES
+async function loadOfferWatches(){
+  try{
+    const ws=await api('GET','/watches');
+    $('prW').innerHTML='<option value="">Choose watch...</option>'+ws.map(w=>`<option value="${w.id}" data-p="${w.price}" data-d="${w.discount}">${w.brand} ${w.name}</option>`).join('');
+  }catch{}
+}
+function loadPW(id){
+  const o=$('prW').querySelector(`option[value="${id}"]`);if(!o||!id)return;
+  $('prC').value='$'+o.dataset.p;$('prN').value='';$('prD').value=o.dataset.d||'0';
+}
+async function updatePrice(){
+  const id=$('prW').value,price=+$('prN').value,discount=+$('prD').value||0;
+  if(!id){toast('Select a watch');return;}if(!price){toast('Enter new price');return;}
+  try{await api('PATCH',`/watches/${id}/price`,{price,discount});toast('Price updated!');loadOfferWatches();}
+  catch(e){toast('Error: '+e.message);}
+}
+
+// USERS
+async function loadUsers(){
+  try{
+    const users=await api('GET','/admin/users');
+    const customers=users.filter(u=>u.role!=='admin');
+    $('uCount').textContent=customers.length+' customers';
+    $('usersT').innerHTML=customers.map(u=>`
+      <tr><td><div style="display:flex;align-items:center;gap:9px"><div class="user-av">${u.name.charAt(0)}</div><strong>${u.name}</strong></div></td>
+      <td style="font-size:11px">${u.email}</td>
+      <td style="font-size:11px">${u.phone||'—'}</td>
+      <td style="color:var(--gd2)">${(u.points||0).toLocaleString()} pts</td>
+      <td><span class="tier-badge ${u.tier}">${u.tier}</span></td>
+      <td>${u.order_count||0}</td>
+      <td style="font-size:11px">${fmtD(u.created_at)}</td></tr>`).join('');
+  }catch(e){toast('Error: '+e.message);}
+}
+
+// SEARCH
+function search(val){
+  ['watchesT','ordersT','usersT'].forEach(id=>{
+    const tb=$(id);if(!tb)return;
+    Array.from(tb.rows).forEach(row=>{row.style.display=row.textContent.toLowerCase().includes(val.toLowerCase())?'':'none';});
+  });
+}
+
+// ── BULK PRICE ──
+async function doBulkPrice(){
+  const category = $('bulkCat').value;
+  const percent = parseFloat($('bulkPct').value);
+  const type = $('bulkType').value;
+  if(!percent||percent<=0){toast('Enter a valid percent');return;}
+  if(!confirm(`${type==='decrease'?'Decrease':'Increase'} all ${category} watches by ${percent}%?`))return;
+  try{
+    const r = await api('PATCH','/admin/bulk-price',{category,percent,type});
+    toast(r.message);
+    loadOfferWatches();
+  }catch(e){toast('Error: '+e.message);}
+}
+
+// ── REVIEWS MANAGEMENT ──
+async function loadReviews(){
+  try{
+    // Fetch all watches then get reviews for each
+    const watches = await api('GET','/watches');
+    let allReviews = [];
+    for(const w of watches){
+      const d = await api('GET',`/reviews/${w.id}`);
+      d.reviews.forEach(r=>{ r.watch_name=w.name; r.brand=w.brand; allReviews.push(r); });
+    }
+    $('reviewCount').textContent = allReviews.length + ' reviews';
+    $('reviewsT').innerHTML = allReviews.length ? allReviews.map(r=>`
+      <tr>
+        <td><div style="font-size:11px;color:var(--wh);font-weight:500">${r.brand}</div><div style="font-size:10px;color:var(--mu)">${r.watch_name}</div></td>
+        <td style="font-size:12px">${r.reviewer_name||'—'}</td>
+        <td><span style="color:#c9a84c">${'★'.repeat(r.rating)}<span style="color:#333">${'★'.repeat(5-r.rating)}</span></span></td>
+        <td style="font-size:12px">${r.title||'—'}</td>
+        <td style="font-size:11px;color:var(--mu);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.body}</td>
+        <td style="font-size:11px;color:var(--mu)">${new Date(r.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short'})}</td>
+        <td><button class="act-btn danger" onclick="deleteReview(${r.id})">Delete</button></td>
+      </tr>`).join('') :
+      '<tr><td colspan="7" style="text-align:center;color:var(--mu);padding:28px">No reviews yet</td></tr>';
+  }catch(e){toast('Error loading reviews: '+e.message);}
+}
+
+async function deleteReview(id){
+  if(!confirm('Delete this review?'))return;
+  try{ await api('DELETE',`/reviews/${id}`); toast('Review deleted'); loadReviews(); }
+  catch(e){toast('Error: '+e.message);}
+}
+
+// ── ABANDONED CARTS ──
+async function loadAbandonedCarts(){
+  try{
+    const carts = await api('GET','/admin/abandoned-carts');
+    $('abandonedT').innerHTML = carts.length ? carts.map(c=>{
+      const items = JSON.parse(c.items||'[]');
+      return `<tr>
+        <td style="font-size:12px">${c.phone||'—'}</td>
+        <td style="font-size:11px;color:var(--mu)">${c.email||'—'}</td>
+        <td style="font-size:11px;color:var(--mu)">${items.map(i=>i.name||i.id).join(', ')}</td>
+        <td style="font-size:11px;color:var(--mu)">${new Date(c.created_at).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</td>
+      </tr>`;
+    }).join('') : '<tr><td colspan="4" style="text-align:center;color:var(--mu);padding:28px">No abandoned carts</td></tr>';
+  }catch(e){toast('Error: '+e.message);}
+}
+
+// ── MUSIC MANAGER ──
+async function loadMusic(){
+  try{
+    const tracks = await api('GET','/admin/music');
+    $('musicCount').textContent = tracks.length + ' track' + (tracks.length!==1?'s':'');
+    $('musicTracksList').innerHTML = tracks.length ? tracks.map(t=>`
+      <div class="music-row ${t.active?'':'music-inactive'}" id="mrow-${t.id}">
+        <div class="music-row-drag">⠿</div>
+        <div class="music-row-info">
+          <div class="music-row-name">${t.name}</div>
+          <div class="music-row-artist">${t.artist||'No artist set'}</div>
+          <div class="music-row-url" title="${t.src}">${t.src.replace('https://','').slice(0,48)}${t.src.length>55?'…':''}</div>
+        </div>
+        <div class="music-row-actions">
+          <button class="toggle ${t.active?'on':''}" onclick="toggleTrack(${t.id},this)" title="${t.active?'Disable':'Enable'}"></button>
+          <button class="act-btn" onclick="editTrack(${t.id},'${encodeURIComponent(t.name)}','${encodeURIComponent(t.artist||'')}','${encodeURIComponent(t.src)}',${t.active})">Edit</button>
+          <button class="act-btn danger" onclick="deleteTrack(${t.id},'${t.name.replace(/'/g,'')}')">Delete</button>
+        </div>
+      </div>`).join('') :
+      `<div style="text-align:center;padding:40px;color:var(--mu);font-size:12px">
+        No tracks yet. Add one using the form →<br>
+        <small style="display:block;margin-top:8px;opacity:.6">Or use the presets to get started quickly</small>
+      </div>`;
+  }catch(e){toast('Error: '+e.message);}
+}
+
+async function saveTrack(){
+  const id = $('musicEditId').value;
+  const name = $('musicName').value.trim();
+  const artist = $('musicArtist').value.trim();
+  const src = $('musicSrc').value.trim();
+  const active = $('musicActive').checked;
+  if(!name){toast('Track name is required');return;}
+  if(!src){toast('Stream URL is required');return;}
+  if(!src.startsWith('http')){toast('URL must start with http:// or https://');return;}
+  try{
+    if(id){
+      await api('PUT',`/admin/music/${id}`,{name,artist,src,active,sort_order:0});
+      toast('Track updated!');
+    } else {
+      await api('POST','/admin/music',{name,artist,src,active});
+      toast('Track added!');
+    }
+    resetMusicForm();
+    loadMusic();
+  }catch(e){toast('Error: '+e.message);}
+}
+
+function editTrack(id,name,artist,src,active){
+  $('musicEditId').value = id;
+  $('musicName').value = decodeURIComponent(name);
+  $('musicArtist').value = decodeURIComponent(artist);
+  $('musicSrc').value = decodeURIComponent(src);
+  $('musicActive').checked = !!active;
+  $('musicFormTitle').textContent = 'Edit Track';
+  $('musicName').focus();
+}
+
+function resetMusicForm(){
+  $('musicEditId').value = '';
+  $('musicName').value = '';
+  $('musicArtist').value = '';
+  $('musicSrc').value = '';
+  $('musicActive').checked = true;
+  $('musicFormTitle').textContent = 'Add Track';
+}
+
+async function toggleTrack(id,btn){
+  try{
+    const r = await api('PATCH',`/admin/music/${id}/toggle`);
+    btn.classList.toggle('on', r.active);
+    const row = document.getElementById('mrow-'+id);
+    if(row) row.classList.toggle('music-inactive', !r.active);
+    toast(r.message);
+  }catch(e){toast('Error: '+e.message);}
+}
+
+async function deleteTrack(id,name){
+  if(!confirm(`Delete "${name}"?`))return;
+  try{
+    await api('DELETE',`/admin/music/${id}`);
+    toast('Track deleted');
+    loadMusic();
+  }catch(e){toast('Error: '+e.message);}
+}
+
+function fillPreset(name,artist,src){
+  $('musicName').value = name;
+  $('musicArtist').value = artist;
+  $('musicSrc').value = src;
+  $('musicActive').checked = true;
+  $('musicEditId').value = '';
+  $('musicFormTitle').textContent = 'Add Track';
+  $('musicName').focus();
+  toast('Preset loaded — click Save Track to add it');
+}
+
+// INIT
+function logout(){localStorage.removeItem('pz_token');localStorage.removeItem('pz_user');window.location='/auth';}
+if(user){$('sbName').textContent=user.name;$('sbAv').textContent=user.name.charAt(0).toUpperCase();}
+loadDash();
+</script>
+</body>
+</html>

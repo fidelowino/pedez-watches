@@ -1,0 +1,1825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pedez Watch — Luxury Timepieces</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/main.css">
+<style>
+/* ── HERO ── */
+.hero{height:100vh;position:relative;display:flex;align-items:center;overflow:hidden;background:var(--bk)}
+.hero-glow{position:absolute;width:800px;height:800px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.07) 0%,transparent 70%);top:50%;left:55%;transform:translate(-50%,-50%);pointer-events:none;animation:hglow 7s ease-in-out infinite}
+@keyframes hglow{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.6}50%{transform:translate(-50%,-50%) scale(1.15);opacity:1}}
+.hero-ring{position:absolute;border-radius:50%;border:1px solid rgba(201,168,76,.07);top:50%;left:55%;transform:translate(-50%,-50%);animation:hring 5s ease-in-out infinite}
+.hero-ring:nth-child(2){width:480px;height:480px}
+.hero-ring:nth-child(3){width:720px;height:720px;animation-delay:1.7s}
+.hero-ring:nth-child(4){width:960px;height:960px;animation-delay:3.4s}
+@keyframes hring{0%,100%{opacity:.3}50%{opacity:.9}}
+.hero-particles{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.particle{position:absolute;border-radius:50%;background:var(--gd);opacity:0;animation:pfloat linear infinite}
+@keyframes pfloat{0%{opacity:0;transform:translateY(0) translateX(0)}15%{opacity:.6}85%{opacity:.2}100%{opacity:0;transform:translateY(-100vh) translateX(var(--dx))}}
+.hero-left{position:relative;z-index:2;padding:0 56px;max-width:560px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(201,168,76,.25);padding:6px 16px;margin-bottom:30px;animation:fadeUp .9s .2s both}
+.hero-dot{width:5px;height:5px;border-radius:50%;background:var(--gd);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
+.hero-eyebrow span{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gd)}
+.hero-h1{font-family:var(--fd);font-size:clamp(54px,7.5vw,108px);font-weight:400;line-height:.95;letter-spacing:-2px;margin-bottom:24px;animation:fadeUp .9s .4s both}
+.hero-h1 em{font-style:italic;color:var(--gd2);display:block}
+.hero-sub{font-size:14px;color:var(--mu);line-height:1.8;margin-bottom:44px;max-width:380px;animation:fadeUp .9s .6s both}
+.hero-btns{display:flex;gap:14px;animation:fadeUp .9s .8s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.hero-watch-wrap{position:absolute;right:5%;top:50%;transform:translateY(-50%);z-index:2;animation:fadeIn 1.2s .9s both}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.float-anim{animation:wfloat 7s ease-in-out infinite}
+@keyframes wfloat{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-22px) rotate(-6deg)}}
+.hero-scroll{position:absolute;bottom:36px;left:56px;z-index:2;display:flex;align-items:center;gap:12px;animation:fadeIn 1s 1.8s both}
+.scroll-line{width:52px;height:1px;background:linear-gradient(90deg,var(--gd),transparent)}
+.hero-scroll span{font-size:9px;letter-spacing:3.5px;text-transform:uppercase;color:var(--mu)}
+
+/* ── MARQUEE ── */
+.marquee-wrap{overflow:hidden;padding:15px 0;background:var(--bk2);border-top:1px solid rgba(201,168,76,.1);border-bottom:1px solid rgba(201,168,76,.1)}
+.marquee-track{display:flex;width:max-content;animation:marquee 30s linear infinite}
+.marquee-track span{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--mu);padding:0 28px;white-space:nowrap}
+.marquee-gem{color:var(--gd);font-size:8px}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── COLLECTION ── */
+.filters{display:flex;gap:2px;margin-bottom:44px;background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.1);padding:4px;width:fit-content}
+.f-btn{background:transparent;border:none;color:var(--mu);padding:8px 22px;font-size:10px;letter-spacing:2px;text-transform:uppercase;transition:all .3s}
+.f-btn.active,.f-btn:hover{background:var(--gd);color:var(--bk);font-weight:600}
+.watch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.wcard{background:var(--bk2);border:1px solid rgba(201,168,76,.08);position:relative;overflow:hidden;transition:all .4s var(--ease)}
+.wcard:hover{border-color:rgba(201,168,76,.3);transform:translateY(-3px);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.wcard-img{height:280px;position:relative;overflow:hidden;background:var(--bk3);display:flex;align-items:center;justify-content:center}
+.wcard-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+.wcard:hover .wcard-img img{transform:scale(1.05)}
+.wcard-svg{transition:transform .6s var(--ease)}
+.wcard:hover .wcard-svg{transform:scale(1.06) rotate(5deg)}
+.wcard-sale{position:absolute;top:0;left:0;background:var(--gd);color:var(--bk);font-size:9px;font-weight:700;letter-spacing:1.5px;padding:5px 14px;text-transform:uppercase;z-index:2}
+.wcard-low{position:absolute;top:0;right:0;background:rgba(226,75,74,.12);border-left:1px solid rgba(226,75,74,.3);color:var(--red);font-size:9px;font-weight:600;padding:5px 10px;z-index:2;text-transform:uppercase;letter-spacing:1px}
+.wcard-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(201,168,76,.07),transparent);opacity:0;transition:opacity .3s}
+.wcard:hover .wcard-overlay{opacity:1}
+.wcard-qv{position:absolute;bottom:0;left:0;right:0;background:rgba(201,168,76,.93);color:var(--bk);font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;text-align:center;padding:11px;transform:translateY(100%);transition:transform .35s var(--ease);z-index:3;cursor:pointer;border:none;width:100%}
+.wcard:hover .wcard-qv{transform:translateY(0)}
+.wcard-wish{position:absolute;top:12px;right:12px;width:34px;height:34px;background:rgba(10,10,10,.75);border:1px solid rgba(201,168,76,.2);color:var(--mu);font-size:18px;display:flex;align-items:center;justify-content:center;z-index:4;cursor:pointer;opacity:0;transition:all .3s;border-radius:0}
+.wcard:hover .wcard-wish{opacity:1}
+.wcard-wish.active,.wcard-wish:hover{color:var(--red);border-color:rgba(226,75,74,.4);background:rgba(226,75,74,.1);opacity:1}
+.wcard-body{padding:20px 22px 24px;border-top:1px solid rgba(201,168,76,.08)}
+.wcard-brand{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gd);margin-bottom:5px}
+.wcard-name{font-family:var(--fd);font-size:19px;font-weight:400;color:var(--wh);margin-bottom:14px;line-height:1.2}
+.wcard-bottom{display:flex;align-items:center;justify-content:space-between}
+.wcard-price{display:flex;flex-direction:column}
+.wcard-price-now{font-size:19px;font-weight:500;color:var(--gd2)}
+.wcard-price-old{font-size:12px;color:var(--mu);text-decoration:line-through;margin-top:1px}
+.wcard-add{width:40px;height:40px;background:transparent;border:1px solid var(--gd);color:var(--gd);font-size:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;line-height:1;flex-shrink:0}
+.wcard-add:hover{background:var(--gd);color:var(--bk)}
+
+/* ── DETAIL MODAL ── */
+.detail-modal{width:900px;max-width:94vw;max-height:90vh;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr}
+.overlay.open .detail-modal{transform:scale(1) translateY(0)}
+.det-img{background:var(--bk3);display:flex;align-items:center;justify-content:center;padding:48px;position:relative;min-height:380px}
+.det-img-inner{display:flex;align-items:center;justify-content:center;width:100%;height:100%}
+.det-img-inner img{max-width:100%;max-height:280px;object-fit:contain}
+.det-close{position:absolute;top:14px;right:14px;width:36px;height:36px;background:rgba(10,10,10,.8);border:1px solid rgba(201,168,76,.2);color:var(--mu);font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.det-close:hover{color:var(--wh);border-color:var(--gd)}
+.det-info{padding:40px 36px;display:flex;flex-direction:column}
+.det-brand{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gd);margin-bottom:7px}
+.det-name{font-family:var(--fd);font-size:28px;color:var(--wh);line-height:1.1;margin-bottom:5px}
+.det-ref{font-size:11px;color:var(--mu);letter-spacing:2px;margin-bottom:22px}
+.det-price-row{display:flex;align-items:baseline;gap:12px;margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid rgba(201,168,76,.1)}
+.det-price{font-family:var(--fd);font-size:32px;color:var(--gd2)}
+.det-old{font-size:14px;color:var(--mu);text-decoration:line-through}
+.det-save{background:rgba(201,168,76,.12);color:var(--gd);font-size:9px;font-weight:700;letter-spacing:1.5px;padding:4px 10px;text-transform:uppercase}
+.det-specs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+.dspec{background:var(--bk3);border:1px solid rgba(201,168,76,.07);padding:12px 14px}
+.dspec-k{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-bottom:4px}
+.dspec-v{font-size:12px;color:var(--wh)}
+.det-pts{display:flex;align-items:center;gap:8px;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.12);padding:10px 14px;margin-bottom:18px;font-size:11px;color:var(--wh2)}
+.det-pts strong{color:var(--gd2)}
+.det-desc{font-size:12px;color:var(--mu);line-height:1.9;margin-bottom:22px;flex:1}
+.det-btns{display:flex;gap:10px}
+
+/* ── FEATURED ── */
+.featured-sec{background:var(--bk2);padding:96px 56px;border-top:1px solid rgba(201,168,76,.1);border-bottom:1px solid rgba(201,168,76,.1)}
+.featured-inner{display:grid;grid-template-columns:1fr 320px;gap:80px;align-items:center}
+.feat-specs{display:flex;gap:32px;padding:22px 0;border-top:1px solid rgba(201,168,76,.1);border-bottom:1px solid rgba(201,168,76,.1);margin:22px 0}
+.fspec-val{font-family:var(--fd);font-size:22px;color:var(--gd2);margin-bottom:4px}
+.fspec-key{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mu)}
+
+/* ── COUNTDOWN ── */
+.cdown-sec{padding:90px 56px;background:var(--bk)}
+.cdown-inner{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.timer-row{display:flex;align-items:center;gap:14px;margin-top:28px}
+.t-block{background:var(--bk2);border:1px solid rgba(201,168,76,.15);padding:18px 26px;text-align:center;min-width:78px;animation:tpulse 2.5s ease-in-out infinite}
+.t-block:nth-child(3){animation-delay:.4s}.t-block:nth-child(5){animation-delay:.8s}
+@keyframes tpulse{0%,100%{border-color:rgba(201,168,76,.15)}50%{border-color:rgba(201,168,76,.45);box-shadow:0 0 20px rgba(201,168,76,.07)}}
+.t-num{font-family:var(--fd);font-size:42px;color:var(--gd2);line-height:1;display:block}
+.t-lbl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-top:5px;display:block}
+.t-sep{font-family:var(--fd);font-size:32px;color:var(--gd3);padding-bottom:20px}
+.offers-stack{display:flex;flex-direction:column;gap:2px}
+.offer-item{background:var(--bk2);border:1px solid rgba(201,168,76,.1);padding:22px 26px;position:relative;overflow:hidden;transition:border-color .3s}
+.offer-item:hover{border-color:rgba(201,168,76,.3)}
+.offer-item::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gd3),var(--gd2),transparent)}
+.offer-cat{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gd);margin-bottom:5px}
+.offer-title{font-family:var(--fd);font-size:20px;color:var(--wh);margin-bottom:3px}
+.offer-sub{font-size:11px;color:var(--mu)}
+
+/* ── QUESTS ── */
+.quest-sec{background:var(--bk2);padding:90px 56px;border-top:1px solid rgba(201,168,76,.1)}
+.quest-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:48px}
+.qcard{background:var(--bk3);border:1px solid rgba(201,168,76,.1);padding:28px 26px;position:relative;overflow:hidden;transition:all .4s var(--ease)}
+.qcard:hover{border-color:rgba(201,168,76,.3);transform:translateY(-2px)}
+.qcard.done{border-color:rgba(201,168,76,.35);background:linear-gradient(135deg,var(--bk3),rgba(201,168,76,.04))}
+.qcard.locked{opacity:.5;pointer-events:none}
+.qcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gd3),var(--gd2),transparent);opacity:0;transition:opacity .4s}
+.qcard.done::before,.qcard:hover::before{opacity:1}
+.q-status{position:absolute;top:14px;right:14px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;padding:3px 10px}
+.q-icon{font-size:36px;margin-bottom:12px;display:block}
+.q-title{font-family:var(--fd);font-size:18px;color:var(--wh);margin-bottom:6px}
+.q-desc{font-size:12px;color:var(--mu);line-height:1.7;margin-bottom:16px}
+.q-prog-lbl{display:flex;justify-content:space-between;margin-bottom:7px}
+.q-prog-lbl span{font-size:10px;color:var(--mu)}
+.q-prog-lbl strong{font-size:10px;color:var(--gd2)}
+.q-bar{height:4px;background:rgba(201,168,76,.1);border-radius:2px;margin-bottom:16px;overflow:hidden}
+.q-bar-fill{height:100%;background:linear-gradient(90deg,var(--gd3),var(--gd2));border-radius:2px;width:0%;transition:width 1.2s cubic-bezier(.34,1.56,.64,1)}
+.q-reward{display:flex;align-items:center;gap:10px;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.12);padding:10px 14px}
+.q-reward-icon{font-size:16px}
+.q-reward-text{font-size:11px;color:var(--gd2);font-weight:500}
+.q-code{margin-top:10px;font-size:10px;color:var(--gd3);letter-spacing:2px;cursor:pointer;border:none;background:transparent;font-family:var(--fb);text-decoration:underline;padding:0}
+.q-code:hover{color:var(--gd)}
+
+/* ── LOYALTY ── */
+.loyalty-sec{background:var(--bk);padding:90px 56px;border-top:1px solid rgba(201,168,76,.1)}
+.earn-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:22px}
+.earn-item{background:var(--bk2);border:1px solid rgba(201,168,76,.1);padding:24px 18px;text-align:center;transition:all .3s}
+.earn-item:hover{border-color:rgba(201,168,76,.3);transform:translateY(-2px)}
+.earn-emoji{font-size:26px;margin-bottom:10px;display:block}
+.earn-val{font-family:var(--fd);font-size:22px;color:var(--gd2);margin-bottom:5px}
+.earn-label{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mu)}
+.lc{background:var(--bk2);border:1px solid rgba(201,168,76,.18);padding:32px;position:relative;overflow:hidden}
+.lc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gd3),var(--gd2),transparent)}
+.lc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+.lc-tier{display:flex;align-items:center;gap:10px}
+.lc-tier-gem{font-size:22px;color:var(--gd2);animation:gemr 8s linear infinite}
+@keyframes gemr{0%,100%{transform:rotateY(0) scale(1)}50%{transform:rotateY(180deg) scale(1.15)}}
+.lc-tier-name{font-family:var(--fd);font-size:18px;color:var(--gd2)}
+.lc-tier-sub{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mu)}
+.lc-pts{font-family:var(--fd);font-size:52px;color:var(--wh);line-height:1}
+.lc-pts-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-bottom:20px}
+.lc-prog-lbl{display:flex;justify-content:space-between;margin-bottom:7px}
+.lc-prog-lbl span{font-size:10px;color:var(--mu)}
+.lc-prog-lbl strong{font-size:10px;color:var(--gd2)}
+.lc-bar{height:4px;background:rgba(201,168,76,.1);border-radius:2px;margin-bottom:22px}
+.lc-bar-fill{height:100%;background:linear-gradient(90deg,var(--gd3),var(--gd2));border-radius:2px;width:0%;transition:width 1.5s var(--ease)}
+.lc-perk{display:flex;align-items:center;gap:12px;background:var(--bk3);border:1px solid rgba(201,168,76,.08);padding:12px 14px;margin-bottom:8px;transition:border-color .3s}
+.lc-perk:hover{border-color:rgba(201,168,76,.25)}
+.lc-perk-icon{font-size:18px;flex-shrink:0}
+.lc-perk-name{font-size:12px;font-weight:500;color:var(--wh);margin-bottom:2px}
+.lc-perk-sub{font-size:11px;color:var(--mu)}
+.lc-perk-pts{font-size:11px;color:var(--gd2);font-weight:600;margin-left:auto;white-space:nowrap}
+
+/* ── STATS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:52px}
+.stat-card{background:var(--bk2);border:1px solid rgba(201,168,76,.08);padding:36px 28px;text-align:center;position:relative;overflow:hidden;transition:border-color .3s}
+.stat-card:hover{border-color:rgba(201,168,76,.3)}
+.stat-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gd3),var(--gd2),transparent)}
+.stat-num{font-family:var(--fd);font-size:44px;color:var(--gd2)}
+.stat-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--mu);margin-top:8px}
+
+/* ── TESTIMONIALS ── */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:50px}
+.tcard{background:var(--bk2);border:1px solid rgba(201,168,76,.08);padding:32px;position:relative;overflow:hidden;transition:all .3s}
+.tcard::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gd),transparent);transform:scaleX(0);transition:transform .5s}
+.tcard:hover::before{transform:scaleX(1)}
+.tcard:hover{border-color:rgba(201,168,76,.25)}
+.tcard-stars{color:var(--gd);font-size:14px;letter-spacing:3px;margin-bottom:18px}
+.tcard-q{font-family:var(--fd);font-size:17px;font-weight:300;font-style:italic;color:var(--wh2);line-height:1.65;margin-bottom:22px}
+.tcard-author{display:flex;align-items:center;gap:12px;padding-top:18px;border-top:1px solid rgba(201,168,76,.08)}
+.tcard-av{width:36px;height:36px;border-radius:50%;background:var(--gd3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--bk);flex-shrink:0}
+.tcard-name{font-size:12px;font-weight:500;color:var(--wh)}
+.tcard-loc{font-size:10px;color:var(--mu);margin-top:2px}
+
+/* ── ABOUT ── */
+.about-sec{background:var(--bk2);padding:96px 56px;border-top:1px solid rgba(201,168,76,.1)}
+
+/* ── FOOTER ── */
+footer{background:var(--bk2);border-top:1px solid rgba(201,168,76,.12);padding:68px 56px 36px}
+.ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:52px;margin-bottom:52px}
+.ft-brand{font-family:var(--fd);font-size:20px;font-weight:700;letter-spacing:3px;color:var(--wh);margin-bottom:16px}
+.ft-brand em{color:var(--gd);font-style:normal}
+.ft-desc{font-size:12px;color:var(--mu);line-height:1.9;max-width:260px}
+.ft-heading{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gd);margin-bottom:20px}
+.ft-links{list-style:none;display:flex;flex-direction:column;gap:11px}
+.ft-links li{font-size:12px;color:var(--mu);cursor:pointer;transition:color .3s}
+.ft-links li:hover{color:var(--wh)}
+.ft-bottom{border-top:1px solid rgba(201,168,76,.08);padding-top:24px;display:flex;justify-content:space-between;align-items:center}
+.ft-copy{font-size:11px;color:var(--mu2)}
+
+/* ── CHECKOUT MODAL ── */
+.checkout-modal{width:540px}
+.ck-step{display:none;padding:32px}
+.ck-step.active{display:block}
+.ck-step-hd{display:flex;align-items:center;gap:14px;margin-bottom:26px}
+.ck-step-num{width:34px;height:34px;background:var(--gd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--bk);flex-shrink:0}
+.ck-step-title{font-family:var(--fd);font-size:19px;color:var(--wh)}
+.ck-step-sub{font-size:10px;color:var(--mu);margin-top:2px}
+.ck-option{display:block;background:var(--bk3);border:1px solid rgba(201,168,76,.1);padding:14px 16px;cursor:pointer;transition:all .3s;margin-bottom:8px}
+.ck-option:hover{border-color:rgba(201,168,76,.3)}
+.ck-option.sel{border-color:var(--gd);background:rgba(201,168,76,.05)}
+.ck-opt-row{display:flex;align-items:center;gap:14px}
+.ck-opt-icon{font-size:20px;flex-shrink:0}
+.ck-opt-text{flex:1}
+.ck-opt-title{font-size:13px;color:var(--wh);margin-bottom:2px}
+.ck-opt-sub{font-size:11px;color:var(--mu)}
+.ck-opt-price{font-size:12px;color:var(--gd2);font-weight:500;white-space:nowrap}
+.ck-summary{background:var(--bk3);border:1px solid rgba(201,168,76,.1);padding:18px;margin:20px 0}
+.ck-sum-row{display:flex;justify-content:space-between;margin-bottom:8px}
+.ck-sum-row span{font-size:11px;color:var(--mu)}
+.ck-sum-row em{font-size:11px;color:var(--wh2);font-style:normal}
+.ck-sum-divider{height:1px;background:rgba(201,168,76,.1);margin:12px 0}
+.ck-total-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.ck-total-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mu)}
+.ck-total-val{font-size:16px;font-weight:500;color:var(--wh)}
+.ck-kes-row{display:flex;justify-content:space-between;align-items:baseline}
+.ck-kes-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gd)}
+.ck-kes-val{font-family:var(--fd);font-size:28px;color:var(--gd2)}
+.ck-rate{font-size:10px;color:var(--mu2);margin-top:6px}
+.mpesa-how{background:linear-gradient(135deg,#003d14,#006b25);padding:22px;margin-bottom:18px}
+.mpesa-how-title{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:14px}
+.mpesa-step-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.mpesa-step-row:last-child{margin-bottom:0}
+.mpesa-step-n{width:23px;height:23px;background:rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.mpesa-step-t{font-size:12px;color:#fff;line-height:1.5}
+.mpesa-step-t em{color:#4dff91;font-style:normal}
+.send-box{background:var(--bk3);border:1px solid rgba(201,168,76,.2);padding:18px;margin-bottom:14px}
+.send-row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px}
+.send-row:last-child{margin-bottom:0;padding-top:14px;border-top:1px solid rgba(201,168,76,.1)}
+.send-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gd);margin-bottom:5px}
+.send-val{font-family:var(--fd);font-size:26px;color:var(--wh);letter-spacing:2px}
+.send-sub{font-size:11px;color:var(--mu)}
+.send-amt{font-family:var(--fd);font-size:28px;color:var(--gd2)}
+.copy-btn{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);color:var(--gd);padding:6px 13px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:var(--fb);white-space:nowrap}
+.copy-btn:hover{background:var(--gd);color:var(--bk)}
+.success-center{text-align:center;padding:10px 0}
+.success-icon{font-size:64px;display:block;margin-bottom:18px}
+.success-h{font-family:var(--fd);font-size:30px;color:var(--wh);margin-bottom:10px}
+.success-h em{color:var(--gd2);font-style:italic}
+.success-p{font-size:13px;color:var(--mu);line-height:1.8;margin-bottom:20px}
+.success-details{background:var(--bk3);border:1px solid rgba(201,168,76,.1);padding:20px;text-align:left;margin-bottom:18px}
+.success-details-h{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gd);margin-bottom:12px}
+.success-details p{font-size:12px;color:var(--mu);line-height:2.4}
+.success-details strong{color:var(--wh2)}
+.success-pts{text-align:center;font-size:12px;color:var(--wh2);background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);padding:12px;margin-bottom:20px}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- WHATSAPP FLOATING BUTTON -->
+<a id="waBtn" href="https://wa.me/254793865212?text=Hi%20Pedez%20Watch%2C%20I%27m%20interested%20in%20your%20collection" target="_blank" rel="noopener" title="Chat on WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- ABANDONED CART NUDGE (shown after 60s of inactivity if cart has items) -->
+<div id="cartNudge" style="display:none">
+  <div style="font-size:13px;color:var(--wh);margin-bottom:4px">Still thinking it over?</div>
+  <div style="font-size:11px;color:var(--mu);margin-bottom:12px">Leave your number and we'll hold your selection.</div>
+  <div style="display:flex;gap:8px">
+    <input id="nudgePhone" class="form-input" placeholder="07XX XXX XXX" style="flex:1;padding:9px 12px;font-size:12px">
+    <button class="btn btn-gold btn-sm" onclick="saveAbandonedCart()">Save</button>
+  </div>
+  <button onclick="document.getElementById('cartNudge').style.display='none'" style="background:none;border:none;color:var(--mu);font-size:11px;margin-top:8px;cursor:pointer;width:100%;text-align:center">No thanks</button>
+</div>
+
+<!-- MUSIC -->
+<audio id="bgAudio" preload="none"></audio>
+<div id="musicPlayer">
+  <button class="mp-prev" onclick="prevTrack()" title="Previous">&#x25C4;</button>
+  <div class="music-bars" id="mbars">
+    <div class="mbar"></div><div class="mbar"></div>
+    <div class="mbar"></div><div class="mbar"></div><div class="mbar"></div>
+  </div>
+  <div class="m-info">
+    <div class="m-title" id="mTrackName">Luxury Lounge</div>
+    <div class="m-sub" id="mSub">▶ to play ambient music</div>
+    <div class="m-track-dots" id="mDots"></div>
+  </div>
+  <input class="m-vol" type="range" id="mVol" min="0" max="1" step="0.05" value="0.55" oninput="setVol(this.value)" title="Volume">
+  <button class="m-btn" id="mBtn" onclick="toggleMusic()">▶</button>
+  <button class="mp-next" onclick="nextTrack()" title="Next">&#x25BA;</button>
+</div>
+
+<!-- CART OVERLAY -->
+<div id="cartOverlay" onclick="closeCart()"></div>
+<div id="cartDrawer">
+  <div class="cart-hd">
+    <h3>Your Cart</h3>
+    <button class="modal-close" onclick="closeCart()">&#x2715;</button>
+  </div>
+  <div class="cart-body" id="cartBody"></div>
+  <div class="cart-ft">
+    <div class="cart-summary" id="cartSummary" style="display:none">
+      <div class="cs-row"><span class="cs-label">Subtotal</span><span class="cs-value" id="csSub">$0</span></div>
+      <div class="cs-row"><span class="cs-label">Savings</span><span class="cs-value" style="color:var(--green)" id="csSave">$0</span></div>
+      <div class="cs-row"><span class="cs-label">Delivery</span><span class="cs-value">By agreement</span></div>
+    </div>
+    <div class="cs-total-row"><span class="cs-total-label">Total</span><span class="cs-total-usd" id="csTotalUSD">KES 0</span></div>
+    <button class="btn btn-gold btn-full" style="margin-top:16px" onclick="openCheckout()">Proceed to Checkout →</button>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="overlay" id="detailOverlay">
+  <div class="modal detail-modal">
+    <div class="det-img">
+      <button class="det-close" onclick="closeDetail()">&#x2715;</button>
+      <!-- Live viewers badge -->
+      <div class="det-viewers" id="detViewers" style="display:none">
+        <span class="det-viewer-dot"></span><span id="detViewerCount">0</span> viewing
+      </div>
+      <div class="det-img-inner" id="detImgWrap"></div>
+    </div>
+    <div class="det-info">
+      <div class="det-brand" id="detBrand"></div>
+      <div class="det-name" id="detName"></div>
+      <div class="det-ref" id="detRef"></div>
+      <!-- Rating summary -->
+      <div class="det-rating" id="detRating" style="display:none">
+        <span class="det-stars" id="detStars"></span>
+        <span class="det-rating-count" id="detRatingCount"></span>
+      </div>
+      <div class="det-price-row">
+        <span class="det-price" id="detPrice"></span>
+        <span class="det-old" id="detOld" style="display:none"></span>
+        <span class="det-save" id="detSave" style="display:none"></span>
+      </div>
+      <div class="det-specs" id="detSpecs"></div>
+      <div class="det-pts">&#x25C6;&nbsp;<span>Earns <strong id="detPts"></strong> Pedez Points</span></div>
+      <div class="det-desc" id="detDesc"></div>
+      <div class="det-btns">
+        <button class="btn btn-gold" style="flex:1" id="detAddBtn">Add to Cart</button>
+        <button class="btn btn-outline btn-sm" id="detShareBtn" onclick="shareWatch()" title="Share">&#x2197;</button>
+        <button class="btn btn-ghost btn-sm" onclick="closeDetail()">Close</button>
+      </div>
+      <!-- Reviews section -->
+      <div class="det-reviews">
+        <div class="det-reviews-hd">
+          <span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gd)">Reviews</span>
+          <button class="btn btn-ghost btn-sm" id="detWriteReviewBtn" style="display:none" onclick="openWriteReview()">Write a Review</button>
+        </div>
+        <div id="detReviewsList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="overlay" id="checkoutOverlay">
+  <div class="modal checkout-modal">
+    <!-- Step 1: Options -->
+    <div class="ck-step active" id="ckS1">
+      <div class="ck-step-hd"><div class="ck-step-num">1</div><div><div class="ck-step-title">Order Options</div><div class="ck-step-sub">Choose packaging & delivery</div></div></div>
+      <p style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gd);margin-bottom:10px">Packaging</p>
+      <div class="ck-option sel" id="pkgStd" onclick="setPkg('standard',this)"><div class="ck-opt-row"><span class="ck-opt-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span><div class="ck-opt-text"><div class="ck-opt-title">Standard Box</div><div class="ck-opt-sub">Secure and professional</div></div><span class="ck-opt-price" style="color:var(--green)">Free</span></div></div>
+      <div class="ck-option" id="pkgGift" onclick="setPkg('gift',this)"><div class="ck-opt-row"><span class="ck-opt-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/></svg></span><div class="ck-opt-text"><div class="ck-opt-title">Luxury Gift Box</div><div class="ck-opt-sub">Gold foil, ribbon & personalised card</div></div><span class="ck-opt-price">+$8</span></div></div>
+      <p style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gd);margin:16px 0 10px">Delivery</p>
+      <div class="ck-option sel" id="delPickup" onclick="setDel('pickup',this)"><div class="ck-opt-row"><span class="ck-opt-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><div class="ck-opt-text"><div class="ck-opt-title">Pickup</div><div class="ck-opt-sub">Collect directly · Ready in 24hrs</div></div><span class="ck-opt-price" style="color:var(--green)">Free</span></div></div>
+      <div class="ck-option" id="delLocal" onclick="setDel('local',this)"><div class="ck-opt-row"><span class="ck-opt-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></span><div class="ck-opt-text"><div class="ck-opt-title">Local Delivery</div><div class="ck-opt-sub">Door-to-door · 1–2 days</div></div><span class="ck-opt-price">By agreement</span></div></div>
+      <div class="ck-option" id="delNation" onclick="setDel('national',this)"><div class="ck-opt-row"><span class="ck-opt-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span><div class="ck-opt-text"><div class="ck-opt-title">Nationwide</div><div class="ck-opt-sub">Anywhere · 2–4 business days</div></div><span class="ck-opt-price">By agreement</span></div></div>
+      <div id="addrWrap" style="display:none;margin-top:10px"><input class="form-input" id="ckAddr" placeholder="Your delivery address"></div>
+      <div id="ckItemsList" style="margin:18px 0"></div>
+      <div class="ck-summary">
+        <div class="ck-sum-row"><span>Items</span><em id="ckSumItems">$0</em></div>
+        <div class="ck-sum-row"><span>Savings</span><em style="color:var(--green)" id="ckSumSave">$0</em></div>
+        <div class="ck-sum-row"><span>Packaging</span><em id="ckSumPkg">Free</em></div>
+        <div class="ck-sum-row"><span>Delivery</span><em id="ckSumDel">Free (Pickup)</em></div>
+        <div class="ck-sum-divider"></div>
+        <div class="ck-total-row"><span class="ck-total-label">Total</span><span class="ck-total-val" id="ckTotalUSD">KES 0</span></div>
+        <div class="ck-rate">Rate: 1 USD ≈ KES <span id="ckRate">129</span></div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-gold" style="flex:1" onclick="goStep(2)">Pay with M-Pesa →</button>
+        <button class="btn btn-ghost" onclick="closeCheckout()">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Step 2: M-Pesa -->
+    <div class="ck-step" id="ckS2">
+      <div class="ck-step-hd"><div class="ck-step-num">2</div><div><div class="ck-step-title">Pay via M-Pesa</div><div class="ck-step-sub">Send money — takes 30 seconds</div></div></div>
+      <div class="mpesa-how">
+        <div class="mpesa-how-title">How to pay</div>
+        <div class="mpesa-step-row"><div class="mpesa-step-n">1</div><div class="mpesa-step-t">Open M-Pesa → tap <em>Send Money</em></div></div>
+        <div class="mpesa-step-row"><div class="mpesa-step-n">2</div><div class="mpesa-step-t">Send to the number below</div></div>
+        <div class="mpesa-step-row"><div class="mpesa-step-n">3</div><div class="mpesa-step-t">Enter the <em>exact KES amount</em> shown</div></div>
+        <div class="mpesa-step-row"><div class="mpesa-step-n">4</div><div class="mpesa-step-t">Paste your <em>M-Pesa confirmation code</em> below</div></div>
+      </div>
+      <div class="send-box">
+        <div class="send-row">
+          <div><div class="send-label">Send Money To</div><div class="send-val">0793 865 212</div><div class="send-sub">Pedez Watch — Official</div></div>
+          <button class="copy-btn" id="copyPhoneBtn" onclick="copyText('0793865212',this)">Copy</button>
+        </div>
+        <div class="send-row">
+          <div><div class="send-label">Exact Amount (KES)</div><div class="send-amt" id="mpesaKES">KES 0</div></div>
+          <button class="copy-btn" id="copyAmtBtn" onclick="copyAmountBtn()">Copy</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">M-Pesa Confirmation Code</label>
+        <input class="form-input" id="mpesaCode" placeholder="e.g. QK7X2B8F3P" style="text-transform:uppercase;letter-spacing:3px;font-size:15px" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,12)">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Your Phone Number (for updates)</label>
+        <div style="display:flex">
+          <div style="background:var(--bk3);border:1px solid rgba(201,168,76,.18);border-right:none;padding:13px 14px;font-size:13px;color:var(--mu);white-space:nowrap">+254</div>
+          <input class="form-input" id="mpesaPhone" placeholder="7XX XXX XXX" style="border-left:none;border-radius:0">
+        </div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-gold" id="confirmBtn" style="flex:1;background:#006b25;border-color:#006b25" onclick="confirmPayment()">Confirm Payment ✓</button>
+        <button class="btn btn-ghost" onclick="goStep(1)">Back</button>
+      </div>
+      <p style="text-align:center;margin-top:14px;font-size:10px;color:var(--mu2)">We'll verify your payment and confirm within 1 hour</p>
+    </div>
+
+    <!-- Step 3: Success -->
+    <div class="ck-step" id="ckS3">
+      <div class="success-center">
+        <span class="success-icon">🎉</span>
+        <div class="success-h">Order <em>Received!</em></div>
+        <p class="success-p">We have your order and M-Pesa reference.<br>We'll confirm within <strong style="color:var(--wh)">1 hour</strong>.</p>
+        <div class="success-details"><div class="success-details-h">Order Summary</div><p id="successInfo"></p></div>
+        <div class="success-pts">&#x25C6; You earned <strong style="color:var(--gd2)" id="successPts"></strong> Pedez Points on this order</div>
+        <button class="btn btn-gold btn-full" onclick="closeCheckout()">Done — Keep Shopping</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MY ORDERS MODAL -->
+<div class="modal-overlay" id="ordersModal" onclick="if(event.target===this)closeMyOrders()">
+  <div class="modal-panel" style="width:600px;max-width:94vw;max-height:85vh;overflow-y:auto">
+    <div class="mp-head">
+      <h3 class="mp-title">My <em>Orders</em></h3>
+      <button class="mp-close" onclick="closeMyOrders()">✕</button>
+    </div>
+    <div class="mp-body" id="ordersBody">
+      <div class="loading-state">Loading your orders...</div>
+    </div>
+  </div>
+</div>
+
+<!-- WISHLIST MODAL -->
+<div class="modal-overlay" id="wishlistModal" onclick="if(event.target===this)closeWishlist()">
+  <div class="modal-panel" style="width:560px;max-width:94vw;max-height:85vh;overflow-y:auto">
+    <div class="mp-head">
+      <h3 class="mp-title">My <em>Wishlist</em></h3>
+      <button class="mp-close" onclick="closeWishlist()">✕</button>
+    </div>
+    <div class="mp-body" id="wishlistBody">
+      <div class="loading-state">Loading your wishlist...</div>
+    </div>
+  </div>
+</div>
+
+<!-- ORDER TRACKING MODAL -->
+<div class="modal-overlay" id="trackModal" onclick="if(event.target===this)closeTrack()">
+  <div class="modal-panel" style="width:500px;max-width:94vw">
+    <div class="mp-head"><h3 class="mp-title">Track <em>Order</em></h3><button class="mp-close" onclick="closeTrack()">✕</button></div>
+    <div class="mp-body">
+      <div style="display:flex;gap:10px;margin-bottom:20px">
+        <input class="form-input" id="trackInput" placeholder="Enter Order ID e.g. PW-12" style="flex:1" onkeydown="if(event.key==='Enter')trackOrder()">
+        <button class="btn btn-gold btn-sm" onclick="trackOrder()">Track</button>
+      </div>
+      <div id="trackResult"></div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIFY ME MODAL -->
+<div class="modal-overlay" id="notifyModal" onclick="if(event.target===this)closeNotify()">
+  <div class="modal-panel" style="width:420px;max-width:94vw">
+    <div class="mp-head"><h3 class="mp-title">Notify <em>Me</em></h3><button class="mp-close" onclick="closeNotify()">✕</button></div>
+    <div class="mp-body">
+      <p style="font-size:13px;color:var(--mu);margin-bottom:20px;line-height:1.7">This watch is out of stock. Leave your number and we'll WhatsApp you the moment it's back.</p>
+      <div class="form-group"><label class="form-label">Phone Number</label><input class="form-input" id="notifyPhone" placeholder="07XX XXX XXX"></div>
+      <div class="form-group"><label class="form-label">Email (optional)</label><input class="form-input" id="notifyEmail" placeholder="your@email.com" type="email"></div>
+      <input type="hidden" id="notifyWatchId">
+      <button class="btn btn-gold btn-full" onclick="submitNotify()">Notify Me When Back</button>
+    </div>
+  </div>
+</div>
+
+<!-- REFERRAL MODAL -->
+<div class="modal-overlay" id="referralModal" onclick="if(event.target===this)closeReferral()">
+  <div class="modal-panel" style="width:460px;max-width:94vw">
+    <div class="mp-head"><h3 class="mp-title">Refer & <em>Earn</em></h3><button class="mp-close" onclick="closeReferral()">✕</button></div>
+    <div class="mp-body">
+      <div style="background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);padding:20px;text-align:center;margin-bottom:20px">
+        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gd);margin-bottom:8px">Your Referral Code</div>
+        <div id="refCode" style="font-family:'Playfair Display',serif;font-size:28px;color:var(--gd2);letter-spacing:4px;margin-bottom:8px">—</div>
+        <button class="btn btn-outline btn-sm" onclick="copyRefCode()">Copy Code</button>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:20px">
+        <div style="text-align:center;flex:1"><div style="font-family:'Playfair Display',serif;font-size:28px;color:var(--wh)" id="refCount">0</div><div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-top:4px">Referrals</div></div>
+        <div style="width:1px;background:rgba(201,168,76,.1)"></div>
+        <div style="text-align:center;flex:1"><div style="font-family:'Playfair Display',serif;font-size:28px;color:var(--gd2)" id="refEarned">0</div><div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-top:4px">Points Earned</div></div>
+      </div>
+      <p style="font-size:12px;color:var(--mu);line-height:1.8;margin-bottom:16px">Share your code with a friend. When they sign up and make their first purchase, you both earn <strong style="color:var(--gd2)">500 Pedez Points</strong>.</p>
+      <button class="btn btn-gold btn-full" onclick="shareRefWhatsApp()">Share via WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<!-- CERTIFICATE MODAL -->
+<div class="modal-overlay" id="certModal" onclick="if(event.target===this)closeCert()">
+  <div class="modal-panel" style="width:560px;max-width:94vw">
+    <div class="mp-head"><h3 class="mp-title">Authenticity <em>Certificate</em></h3><button class="mp-close" onclick="closeCert()">✕</button></div>
+    <div class="mp-body" id="certBody"></div>
+  </div>
+</div>
+
+<!-- WRITE REVIEW MODAL -->
+<div class="modal-overlay" id="reviewModal" onclick="if(event.target===this)closeReview()">
+  <div class="modal-panel" style="width:460px;max-width:94vw">
+    <div class="mp-head"><h3 class="mp-title">Leave a <em>Review</em></h3><button class="mp-close" onclick="closeReview()">✕</button></div>
+    <div class="mp-body">
+      <input type="hidden" id="reviewWatchId">
+      <div class="form-group">
+        <label class="form-label">Rating</label>
+        <div class="star-picker" id="starPicker">
+          <span onclick="setStars(1)" class="sp-star">★</span>
+          <span onclick="setStars(2)" class="sp-star">★</span>
+          <span onclick="setStars(3)" class="sp-star">★</span>
+          <span onclick="setStars(4)" class="sp-star">★</span>
+          <span onclick="setStars(5)" class="sp-star">★</span>
+        </div>
+        <input type="hidden" id="reviewStars" value="0">
+      </div>
+      <div class="form-group"><label class="form-label">Title</label><input class="form-input" id="reviewTitle" placeholder="e.g. Exactly as described"></div>
+      <div class="form-group"><label class="form-label">Your Review</label><textarea class="form-input" id="reviewBody" rows="4" placeholder="What did you think?" style="resize:vertical;min-height:90px"></textarea></div>
+      <button class="btn btn-gold btn-full" onclick="submitReview()">Submit Review</button>
+    </div>
+  </div>
+</div>
+
+<!-- REWARD POPUP -->
+<div id="rewardPopup">
+  <div class="reward-box">
+    <div class="reward-confetti" id="rewardConfetti"></div>
+    <span class="reward-emoji" id="rewardEmoji"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></span>
+    <div class="reward-title">Quest <em>Complete!</em></div>
+    <p class="reward-sub" id="rewardSub"></p>
+    <div class="reward-code" id="rewardCode" onclick="copyRewardCode()">PEDEZ-VIP</div>
+    <div class="reward-code-hint">Click code to copy</div>
+    <button class="btn btn-gold btn-full" onclick="closeRewardPopup()">Claim Reward 🎉</button>
+  </div>
+</div>
+
+<!-- SEARCH RESULTS OVERLAY -->
+<div class="search-results" id="searchResults"></div>
+
+<!-- ═══ MAIN CONTENT ═══ -->
+<nav class="main-nav" id="mainNav">
+  <div class="nav-logo"><a href="/" style="display:flex;align-items:center;gap:12px;text-decoration:none"><svg class="pedez-logo-icon" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg-g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f5e8a8"/><stop offset="40%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#7a5010"/></linearGradient><linearGradient id="lg-v" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#eedb70"/><stop offset="50%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#7a5010"/></linearGradient><linearGradient id="lg-b" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2e2208"/><stop offset="25%" stop-color="#d4a83c"/><stop offset="50%" stop-color="#f0d060"/><stop offset="75%" stop-color="#4a3208"/><stop offset="100%" stop-color="#c9a84c"/></linearGradient></defs><g stroke-linecap="round"><g stroke="#c9a84c" stroke-width="0.9"><line x1="18" y1="1" x2="18" y2="4.2"/><line x1="27.5" y1="3.85" x2="25.8" y2="6.75"/><line x1="34.15" y1="10.5" x2="31.25" y2="12.2"/><line x1="35" y1="18" x2="31.8" y2="18"/><line x1="34.15" y1="25.5" x2="31.25" y2="23.8"/><line x1="27.5" y1="32.15" x2="25.8" y2="29.25"/><line x1="18" y1="35" x2="18" y2="31.8"/><line x1="8.5" y1="32.15" x2="10.2" y2="29.25"/><line x1="1.85" y1="25.5" x2="4.75" y2="23.8"/><line x1="1" y1="18" x2="4.2" y2="18"/><line x1="1.85" y1="10.5" x2="4.75" y2="12.2"/><line x1="8.5" y1="3.85" x2="10.2" y2="6.75"/></g><g stroke="#3a2a08" stroke-width="0.5"><line x1="23.2" y1="1.7" x2="22.2" y2="4.7"/><line x1="30.8" y1="5.2" x2="29" y2="7.6"/><line x1="34.8" y1="12.8" x2="32.4" y2="14.6"/><line x1="34.3" y1="22.8" x2="31.3" y2="22.1"/><line x1="30.8" y1="30.8" x2="29" y2="28.4"/><line x1="23.2" y1="34.3" x2="22.2" y2="31.3"/><line x1="12.8" y1="34.3" x2="13.8" y2="31.3"/><line x1="5.2" y1="30.8" x2="7" y2="28.4"/><line x1="1.7" y1="22.8" x2="4.7" y2="22.1"/><line x1="1.7" y1="13.2" x2="4.7" y2="13.9"/><line x1="5.2" y1="5.2" x2="7" y2="7.6"/><line x1="12.8" y1="1.7" x2="13.8" y2="4.7"/></g></g><circle cx="18" cy="18" r="17" fill="none" stroke="url(#lg-b)" stroke-width="2.2"/><circle cx="18" cy="18" r="15.8" fill="none" stroke="#0a0a0a" stroke-width="0.3"/><circle cx="18" cy="18" r="15" fill="#070707"/><circle cx="18" cy="18" r="15" fill="none" stroke="#1a1a1a" stroke-width="0.4"/><polygon points="18,3 19.4,10 18,8 16.6,10" fill="url(#lg-v)"/><polygon points="18,33 18.8,27 18,29 17.2,27" fill="#181818"/><polygon points="33,18 27,18.8 29,18 27,17.2" fill="#161616"/><polygon points="3,18 9,18.8 7,18 9,17.2" fill="#161616"/><text x="18" y="17" font-family="Playfair Display,Georgia,serif" font-size="5.2" font-weight="700" letter-spacing="0.8" fill="url(#lg-g)" text-anchor="middle">PEDEZ</text><line x1="10" y1="19" x2="26" y2="19" stroke="#2a2a2a" stroke-width="0.4"/><path d="M17.2,20.5 L16.8,11 L18,8 L19.2,11 L18.8,20.5 Z" fill="url(#lg-g)"/><path d="M17.6,20.5 L17.2,8.5 L18,6 L18.8,8.5 L18.4,20.5 Z" fill="#888" transform="rotate(34,18,18)"/><line x1="18" y1="22" x2="18" y2="5" stroke="#c9a84c" stroke-width="0.5" transform="rotate(194,18,18)"/><circle cx="18" cy="23" r="1.4" fill="#c9a84c" transform="rotate(194,18,18)"/><circle cx="18" cy="18" r="2.2" fill="#060606" stroke="url(#lg-b)" stroke-width="0.8"/><circle cx="18" cy="18" r="1" fill="#c9a84c"/><rect x="15.5" y="0.5" width="5" height="3" rx="1" fill="#0e0e0e" stroke="#222" stroke-width="0.4"/><rect x="15.5" y="32.5" width="5" height="3" rx="1" fill="#0e0e0e" stroke="#1a1a1a" stroke-width="0.4"/></svg><span style="font-family:Playfair Display,Georgia,serif;font-size:15px;font-weight:700;letter-spacing:4px;color:#f5f0e8">PEDEZ<span style="color:#c9a84c"> W</span></span></a></div>
+  <ul class="nav-links">
+    <li class="nav-link" onclick="scrollTo('collection')">Collection</li>
+    <li class="nav-link" onclick="scrollTo('offers')">Offers</li>
+    <li class="nav-link" onclick="scrollTo('quests')">Quests</li>
+    <li class="nav-link" onclick="scrollTo('about')">About</li>
+  </ul>
+  <div class="nav-right">
+    <!-- SEARCH -->
+    <div class="nav-search-wrap" id="navSearchWrap">
+      <button class="nav-icon-btn" onclick="toggleSearch()" title="Search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+      <div class="nav-search-box" id="navSearchBox">
+        <input id="navSearchInput" placeholder="Search watches..." oninput="handleSearch(this.value)" onkeydown="if(event.key==='Escape')toggleSearch()">
+        <button onclick="toggleSearch()" style="background:none;border:none;color:var(--mu);font-size:18px;padding:0 8px;cursor:pointer">✕</button>
+      </div>
+    </div>
+    <!-- WISHLIST -->
+    <button class="nav-icon-btn" onclick="openWishlist()" title="Wishlist" id="wishlistBtn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </button>
+    <!-- CART -->
+    <div class="nav-cart" onclick="openCart()" title="Cart">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+      <span class="cart-badge" id="cartBadge">0</span>
+    </div>
+    <!-- USER MENU -->
+    <div class="nav-user-wrap" id="navUserWrap" style="display:none;position:relative">
+      <button class="nav-user-btn" id="navUserBtn" onclick="toggleUserMenu()">
+        <div class="nav-avatar" id="navAvatar">U</div>
+      </button>
+      <div class="nav-dropdown" id="navDropdown">
+        <div class="nd-header">
+          <div class="nd-name" id="ndName">User</div>
+          <div class="nd-pts" id="ndPts">0 pts</div>
+        </div>
+        <button class="nd-item" onclick="openMyOrders()"><span class="nd-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>My Orders</button>
+        <button class="nd-item" onclick="openTrack()"><span class="nd-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></span>Track Order</button>
+        <button class="nd-item" onclick="openWishlist()"><span class="nd-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>Wishlist</button>
+        <button class="nd-item" onclick="openReferral()"><span class="nd-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>Refer & Earn</button>
+        <button class="nd-item" onclick="scrollTo('quests')"><span class="nd-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>My Quests</button>
+        <div class="nd-divider"></div>
+        <button class="nd-item nd-danger" onclick="doLogout()">Sign Out</button>
+      </div>
+    </div>
+    <button class="btn btn-outline btn-sm" id="navAuthBtn" onclick="window.location='/auth'">Sign In</button>
+  </div>
+  <!-- MOBILE HAMBURGER -->
+  <button class="nav-ham" id="navHam" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mm-link" onclick="scrollTo('collection');toggleMobileMenu()">Collection</button>
+  <button class="mm-link" onclick="scrollTo('offers');toggleMobileMenu()">Offers</button>
+  <button class="mm-link" onclick="scrollTo('quests');toggleMobileMenu()">Quests</button>
+  <button class="mm-link" onclick="scrollTo('about');toggleMobileMenu()">About</button>
+  <div class="mm-divider"></div>
+  <button class="mm-link" onclick="window.location='/auth'">Sign In / Register</button>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-ring"></div><div class="hero-ring"></div><div class="hero-ring"></div>
+  <!-- Full bleed background image — dark watch atmosphere -->
+  <div class="hero-bg-img"></div>
+  <div class="hero-particles" id="particles"></div>
+  <div class="hero-left">
+    
+    <h1 class="hero-h1">Worn by<br>those who<br><em>know.</em></h1>
+    <p class="hero-sub">We don't sell watches.<br>We match people with the timepiece they were meant to wear.</p>
+    <div class="hero-btns">
+      <button class="btn btn-gold" onclick="scrollTo('collection')">Shop the Collection</button>
+      <button class="btn btn-outline" onclick="window.location='/auth'">Join — Free</button>
+    </div>
+    <div class="hero-trust">
+      <div class="ht-item"><span class="ht-n">500+</span><span class="ht-l">Watches sold</span></div>
+      <div class="ht-divider"></div>
+      <div class="ht-item"><span class="ht-n">98%</span><span class="ht-l">Happy clients</span></div>
+      <div class="ht-divider"></div>
+      <div class="ht-item"><span class="ht-n">2yrs</span><span class="ht-l">In business</span></div>
+    </div>
+  </div>
+  <!-- RIGHT: Stacked real watch photos -->
+  <div class="hero-watch-wrap">
+    <div class="hero-photo-stack">
+      <div class="hps-card hps-back">
+        <img src="https://images.unsplash.com/photo-1639539499059-4a70ae25be3e?w=400&q=85&auto=format&fit=crop" alt="Luxury watch" loading="eager">
+        <div class="hps-label">Omega Seamaster</div>
+      </div>
+      <div class="hps-card hps-front">
+        <img src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=400&q=85&auto=format&fit=crop" alt="Rolex watch" loading="eager">
+        <div class="hps-label">Rolex Submariner</div>
+        <div class="hps-badge">In Stock</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="scroll-line"></div><span>Scroll</span></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>Pedez Watch</span><span class="marquee-gem">◆</span><span>Luxury Timepieces</span><span class="marquee-gem">◆</span>
+    <span>Handcrafted Precision</span><span class="marquee-gem">◆</span>
+    <span>Delivery By Agreement</span><span class="marquee-gem">◆</span><span>30-Day Returns</span><span class="marquee-gem">◆</span>
+    <span>Authentic & Certified</span><span class="marquee-gem">◆</span>
+    <span>Pedez Watch</span><span class="marquee-gem">◆</span><span>Luxury Timepieces</span><span class="marquee-gem">◆</span>
+    <span>Handcrafted Precision</span><span class="marquee-gem">◆</span>
+    <span>Delivery By Agreement</span><span class="marquee-gem">◆</span><span>30-Day Returns</span><span class="marquee-gem">◆</span>
+    <span>Authentic & Certified</span><span class="marquee-gem">◆</span>
+  </div>
+</div>
+
+<!-- PHOTO STRIP -->
+<div class="photo-strip">
+  <div class="ps-item">
+    <img src="https://images.unsplash.com/photo-1506152983158-b4a74a01c721?w=400&q=80&auto=format&fit=crop" alt="Watch detail" loading="lazy">
+    <div class="ps-overlay"><span>Luxury</span></div>
+  </div>
+  <div class="ps-item">
+    <img src="https://images.unsplash.com/photo-1506152983158-b4a74a01c721?w=400&q=80&auto=format&fit=crop" alt="Watch on wrist" loading="lazy">
+    <div class="ps-overlay"><span>Sport</span></div>
+  </div>
+  <div class="ps-item ps-item-tall">
+    <img src="https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?w=400&q=80&auto=format&fit=crop" alt="Watch closeup" loading="lazy">
+    <div class="ps-overlay"><span>Precision</span></div>
+  </div>
+  <div class="ps-item">
+    <img src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=400&q=80&auto=format&fit=crop" alt="Classic watch" loading="lazy">
+    <div class="ps-overlay"><span>Classic</span></div>
+  </div>
+  <div class="ps-item">
+    <img src="https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?w=400&q=80&auto=format&fit=crop" alt="Watch collection" loading="lazy">
+    <div class="ps-overlay"><span>Collection</span></div>
+  </div>
+</div>
+
+<!-- COLLECTION -->
+<section class="sec reveal" id="collection" style="background:var(--bk)">
+  <div class="sec-tag">Our Collection</div>
+  <h2 class="sec-h">Pieces that<br><em>define you.</em></h2>
+  <div class="collection-controls">
+    <div class="filters">
+      <button class="f-btn active" onclick="filterW('all',this)">All</button>
+      <button class="f-btn" onclick="filterW('luxury',this)">Luxury</button>
+      <button class="f-btn" onclick="filterW('sport',this)">Sport</button>
+      <button class="f-btn" onclick="filterW('classic',this)">Classic</button>
+    </div>
+    <div class="collection-search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input id="collectionSearch" placeholder="Search by name or brand..." oninput="handleCollectionSearch(this.value)">
+    </div>
+  </div>
+  <div class="watch-grid" id="watchGrid">
+    <div style="grid-column:span 3;text-align:center;padding:60px;color:var(--mu)">Loading collection...</div>
+  </div>
+</section>
+
+<!-- FEATURED -->
+<section class="featured-sec reveal" id="offers">
+  <div class="featured-inner">
+    <div>
+      <div class="sec-tag">This Month's Pick</div>
+      <h2 class="sec-h" style="margin-bottom:14px">Rolex<br><em>Submariner Date.</em></h2>
+      <p style="color:var(--mu);font-size:13px;line-height:1.9;max-width:380px">Reference 126610LN. 41mm Oystersteel case, Cerachrom black bezel, Oyster bracelet. Made in 2022, unworn, full set. This is the one people keep asking about — and yes, we actually have it.</p>
+      <div class="feat-specs">
+        <div><div class="fspec-val">300m</div><div class="fspec-key">Water Resistance</div></div>
+        <div><div class="fspec-val">Auto</div><div class="fspec-key">Movement</div></div>
+        <div><div class="fspec-val">41mm</div><div class="fspec-key">Case Size</div></div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <button class="btn btn-gold" onclick="quickAddSubmariner()">Add to Cart</button>
+        <button class="btn btn-outline" onclick="loadAndOpenDetail(1)">View Details</button>
+      </div>
+    </div>
+    <div class="feat-photo-wrap">
+      <div class="feat-photo-frame">
+        <img src="https://images.unsplash.com/photo-1639537946839-eb8b9e0d7d1b?w=600&q=88&auto=format&fit=crop" alt="Rolex Submariner" loading="lazy">
+        <div class="feat-photo-tag">
+          <span class="fpt-ref">Ref. 126610LN</span>
+          <span class="fpt-condition">Unworn · Full Set</span>
+        </div>
+      </div>
+    </div>
+ 
+  </div>
+</section>
+
+<!-- COUNTDOWN -->
+<section class="cdown-sec reveal" id="sale">
+  <div class="cdown-inner">
+    <div>
+      <div class="sec-tag">Limited Time</div>
+      <h2 class="sec-h" style="margin-bottom:12px">The <em>Golden Week</em><br>Sale Ends In</h2>
+      <p style="color:var(--mu);font-size:13px;line-height:1.9">Up to 30% off our most coveted timepieces. Don't let these moments slip by.</p>
+      <div class="timer-row">
+        <div class="t-block"><span class="t-num" id="tH">00</span><span class="t-lbl">Hours</span></div>
+        <span class="t-sep">:</span>
+        <div class="t-block"><span class="t-num" id="tM">00</span><span class="t-lbl">Min</span></div>
+        <span class="t-sep">:</span>
+        <div class="t-block"><span class="t-num" id="tS">00</span><span class="t-lbl">Sec</span></div>
+      </div>
+      <button class="btn btn-gold" style="margin-top:32px" onclick="scrollTo('collection')">Shop the Sale</button>
+    </div>
+    <div class="offers-stack">
+      <div class="offer-item"><div class="offer-cat">Luxury</div><div class="offer-title">Up to 30% off</div><div class="offer-sub">Rolex, Omega, Cartier</div></div>
+      <div class="offer-item"><div class="offer-cat">Sport</div><div class="offer-title">Up to 20% off</div><div class="offer-sub">TAG Heuer, IWC, Seiko</div></div>
+      <div class="offer-item" style="display:flex;align-items:center;justify-content:space-between">
+        <div><div class="offer-cat">Member Exclusive</div><div class="offer-title" style="font-size:16px">Extra 10% for new accounts</div></div>
+        <button class="btn btn-outline btn-sm" onclick="window.location='/auth'">Join Now</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUESTS -->
+<section class="quest-sec reveal" id="quests">
+  <div class="sec-tag">Collector Quests</div>
+  <h2 class="sec-h" style="margin-bottom:8px">Buy. <em>Unlock. Repeat.</em></h2>
+  <p style="color:var(--mu);font-size:13px;max-width:480px">Every 5 purchases unlocks an exclusive reward. The more you collect, the better it gets.</p>
+  <div class="quest-grid" id="questGrid"></div>
+</section>
+
+<!-- LOYALTY -->
+<section class="loyalty-sec reveal">
+  <div class="sec-tag">Pedez Rewards</div>
+  <h2 class="sec-h" style="margin-bottom:0">Earn points.<br><em>Unlock luxury.</em></h2>
+  <div class="sec-2col" style="margin-top:48px;gap:60px;align-items:start">
+    <div>
+      <p style="color:var(--mu);font-size:13px;line-height:2;max-width:360px;margin-bottom:28px">Every purchase earns Pedez Points. Redeem for discounts, exclusive access, and VIP collector perks.</p>
+      <div class="earn-grid">
+        <div class="earn-item"><span class="earn-emoji"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><polyline points="12 9 12 12 13.5 13.5"/><path d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83m.01-10.7l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"/></svg></span><div class="earn-val">1 pt</div><div class="earn-label">Per $1 spent</div></div>
+        <div class="earn-item"><span class="earn-emoji"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><div class="earn-val">200</div><div class="earn-label">Welcome bonus</div></div>
+        <div class="earn-item"><span class="earn-emoji"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><div class="earn-val">500</div><div class="earn-label">Refer a friend</div></div>
+      </div>
+      <button class="btn btn-outline" style="margin-top:24px" onclick="window.location='/auth'">Join & Start Earning</button>
+    </div>
+    <div class="lc" id="loyaltyCard">
+      <div class="lc-head">
+        <div class="lc-tier"><span class="lc-tier-gem">◆</span><div><div class="lc-tier-name" id="lcTier">Bronze</div><div class="lc-tier-sub">Member</div></div></div>
+        <div style="text-align:right"><div style="font-size:9px;letter-spacing:2px;color:var(--mu);text-transform:uppercase">Next Tier</div><div style="font-size:11px;color:var(--gd2);margin-top:2px" id="lcNextTier">Silver</div></div>
+      </div>
+      <div class="lc-pts" id="lcPts">0</div>
+      <div class="lc-pts-label">Available Points</div>
+      <div class="lc-prog-lbl"><span id="lcCurTier">Bronze</span><strong id="lcToNext">500 pts to Silver</strong></div>
+      <div class="lc-bar"><div class="lc-bar-fill" id="lcBarFill"></div></div>
+      <div class="lc-perk"><span class="lc-perk-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/></svg></span><div><div class="lc-perk-name">Welcome Bonus</div><div class="lc-perk-sub">On account creation</div></div><span class="lc-perk-pts">+200 pts</span></div>
+      <div class="lc-perk"><span class="lc-perk-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><polyline points="12 9 12 12 13.5 13.5"/><path d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83m.01-10.7l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"/></svg></span><div><div class="lc-perk-name">Per Purchase</div><div class="lc-perk-sub">Automatically earned</div></div><span class="lc-perk-pts">1 pt/$1</span></div>
+      <div class="lc-perk"><span class="lc-perk-icon">👑</span><div><div class="lc-perk-name">Gold VIP Benefits</div><div class="lc-perk-sub">Reach 1,000 points</div></div><span class="lc-perk-pts">1000+</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-sec reveal" id="about">
+  <div class="sec-2col">
+    <div>
+      <div class="sec-tag">Who we are</div>
+      <h2 class="sec-h" style="margin-bottom:18px">We know our<br><em>watches.</em></h2>
+      <p style="color:var(--mu);font-size:13px;line-height:2;margin-bottom:16px">Pedez started with one simple frustration — finding a good watch shouldn't feel like a gamble. Too many sellers who can't answer basic questions about what they're selling. Too many "luxury" experiences that feel anything but.</p>
+      <p style="color:var(--mu);font-size:13px;line-height:2;margin-bottom:28px">We stock what we know. We answer your questions honestly — including when a piece isn't right for you. We've turned away sales. We're fine with that.</p>
+      <div class="about-promises">
+        <div class="ap-item"><span class="ap-icon">✓</span><span>Every watch is authenticated before it reaches you</span></div>
+        <div class="ap-item"><span class="ap-icon">✓</span><span>We'll tell you if something isn't worth the price</span></div>
+        <div class="ap-item"><span class="ap-icon">✓</span><span>No pressure, no upsells, no nonsense</span></div>
+      </div>
+      <button class="btn btn-outline" style="margin-top:28px" onclick="window.location='/auth'">Start Shopping</button>
+    </div>
+    <div>
+      <div class="about-photo-wrap">
+        <img src="https://images.unsplash.com/photo-1595520407624-2b4bb3d5f7e1?w=600&q=88&auto=format&fit=crop" alt="Watch craftsmanship" loading="lazy">
+        <div class="about-photo-accent"></div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-num counter" data-t="500">0</div><div class="stat-label">Watches Sold</div></div>
+        <div class="stat-card"><div class="stat-num counter" data-t="50">0</div><div class="stat-label">Brands</div></div>
+        <div class="stat-card"><div class="stat-num counter" data-t="98">0</div><div class="stat-label">% Satisfaction</div></div>
+        <div class="stat-card"><div class="stat-num counter" data-t="2">0</div><div class="stat-label">Years in Business</div></div>
+      </div>
+      <div class="about-quote">
+        <div class="aq-mark">"</div>
+        <p class="aq-text">The right watch for the right person. That's the only thing we care about getting right.</p>
+        <div class="aq-author">— The Pedez Team</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="sec reveal" style="padding-top:0;background:var(--bk2)">
+  <div class="sec-tag">What Clients Say</div>
+  <h2 class="sec-h" style="margin-bottom:0">Words from<br><em>our collectors.</em></h2>
+  <div class="testi-grid">
+    <div class="tcard">
+      <div class="tcard-stars">★★★★★</div>
+      <p class="tcard-q">"I'd been looking for a Submariner for two years. Checked everywhere. Pedez had it, condition was exactly as described, and they held it for me while I sorted the payment. Didn't feel like a transaction — felt like dealing with someone who actually cares."</p>
+      <div class="tcard-author"><div class="tcard-av">JM</div><div><div class="tcard-name">James M.</div><div class="tcard-loc">Submariner Date · 2024</div></div></div>
+    </div>
+    <div class="tcard">
+      <div class="tcard-stars">★★★★★</div>
+      <p class="tcard-q">"Bought a Cartier Santos for my husband's 40th. I know nothing about watches. They walked me through everything — movement, case size, why that reference specifically. Gift box was gorgeous. He hasn't taken it off since."</p>
+      <div class="tcard-author"><div class="tcard-av">AK</div><div><div class="tcard-name">Aisha K.</div><div class="tcard-loc">Santos de Cartier · 2024</div></div></div>
+    </div>
+    <div class="tcard">
+      <div class="tcard-stars">★★★★★</div>
+      <p class="tcard-q">"Third watch I've bought through Pedez now. The IWC Pilot was the one I wasn't sure about — they let me ask a hundred questions before I committed. Genuine people, genuine watches. Won't go anywhere else."</p>
+      <div class="tcard-author"><div class="tcard-av">DO</div><div><div class="tcard-name">David O.</div><div class="tcard-loc">IWC Pilot Type 20 · 2025</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-grid">
+    <div><div class="ft-brand" style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><svg class="pedez-logo-icon" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg-g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f5e8a8"/><stop offset="40%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#7a5010"/></linearGradient><linearGradient id="lg-v" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#eedb70"/><stop offset="50%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#7a5010"/></linearGradient><linearGradient id="lg-b" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2e2208"/><stop offset="25%" stop-color="#d4a83c"/><stop offset="50%" stop-color="#f0d060"/><stop offset="75%" stop-color="#4a3208"/><stop offset="100%" stop-color="#c9a84c"/></linearGradient></defs><g stroke-linecap="round"><g stroke="#c9a84c" stroke-width="0.9"><line x1="18" y1="1" x2="18" y2="4.2"/><line x1="27.5" y1="3.85" x2="25.8" y2="6.75"/><line x1="34.15" y1="10.5" x2="31.25" y2="12.2"/><line x1="35" y1="18" x2="31.8" y2="18"/><line x1="34.15" y1="25.5" x2="31.25" y2="23.8"/><line x1="27.5" y1="32.15" x2="25.8" y2="29.25"/><line x1="18" y1="35" x2="18" y2="31.8"/><line x1="8.5" y1="32.15" x2="10.2" y2="29.25"/><line x1="1.85" y1="25.5" x2="4.75" y2="23.8"/><line x1="1" y1="18" x2="4.2" y2="18"/><line x1="1.85" y1="10.5" x2="4.75" y2="12.2"/><line x1="8.5" y1="3.85" x2="10.2" y2="6.75"/></g><g stroke="#3a2a08" stroke-width="0.5"><line x1="23.2" y1="1.7" x2="22.2" y2="4.7"/><line x1="30.8" y1="5.2" x2="29" y2="7.6"/><line x1="34.8" y1="12.8" x2="32.4" y2="14.6"/><line x1="34.3" y1="22.8" x2="31.3" y2="22.1"/><line x1="30.8" y1="30.8" x2="29" y2="28.4"/><line x1="23.2" y1="34.3" x2="22.2" y2="31.3"/><line x1="12.8" y1="34.3" x2="13.8" y2="31.3"/><line x1="5.2" y1="30.8" x2="7" y2="28.4"/><line x1="1.7" y1="22.8" x2="4.7" y2="22.1"/><line x1="1.7" y1="13.2" x2="4.7" y2="13.9"/><line x1="5.2" y1="5.2" x2="7" y2="7.6"/><line x1="12.8" y1="1.7" x2="13.8" y2="4.7"/></g></g><circle cx="18" cy="18" r="17" fill="none" stroke="url(#lg-b)" stroke-width="2.2"/><circle cx="18" cy="18" r="15.8" fill="none" stroke="#0a0a0a" stroke-width="0.3"/><circle cx="18" cy="18" r="15" fill="#070707"/><circle cx="18" cy="18" r="15" fill="none" stroke="#1a1a1a" stroke-width="0.4"/><polygon points="18,3 19.4,10 18,8 16.6,10" fill="url(#lg-v)"/><polygon points="18,33 18.8,27 18,29 17.2,27" fill="#181818"/><polygon points="33,18 27,18.8 29,18 27,17.2" fill="#161616"/><polygon points="3,18 9,18.8 7,18 9,17.2" fill="#161616"/><text x="18" y="17" font-family="Playfair Display,Georgia,serif" font-size="5.2" font-weight="700" letter-spacing="0.8" fill="url(#lg-g)" text-anchor="middle">PEDEZ</text><line x1="10" y1="19" x2="26" y2="19" stroke="#2a2a2a" stroke-width="0.4"/><path d="M17.2,20.5 L16.8,11 L18,8 L19.2,11 L18.8,20.5 Z" fill="url(#lg-g)"/><path d="M17.6,20.5 L17.2,8.5 L18,6 L18.8,8.5 L18.4,20.5 Z" fill="#888" transform="rotate(34,18,18)"/><line x1="18" y1="22" x2="18" y2="5" stroke="#c9a84c" stroke-width="0.5" transform="rotate(194,18,18)"/><circle cx="18" cy="23" r="1.4" fill="#c9a84c" transform="rotate(194,18,18)"/><circle cx="18" cy="18" r="2.2" fill="#060606" stroke="url(#lg-b)" stroke-width="0.8"/><circle cx="18" cy="18" r="1" fill="#c9a84c"/><rect x="15.5" y="0.5" width="5" height="3" rx="1" fill="#0e0e0e" stroke="#222" stroke-width="0.4"/><rect x="15.5" y="32.5" width="5" height="3" rx="1" fill="#0e0e0e" stroke="#1a1a1a" stroke-width="0.4"/></svg><span style="font-family:Playfair Display,Georgia,serif;font-size:15px;font-weight:700;letter-spacing:4px;color:#f5f0e8">PEDEZ<span style="color:#c9a84c"> W</span></span></div><p class="ft-desc">We sell watches. Good ones. Authenticated, honestly priced, backed by people who know what they're talking about.</p></div>
+    <div><p class="ft-heading">Collection</p><ul class="ft-links"><li onclick="filterW('luxury',null);scrollTo('collection')">Luxury</li><li onclick="filterW('sport',null);scrollTo('collection')">Sport</li><li onclick="filterW('classic',null);scrollTo('collection')">Classic</li><li onclick="scrollTo('collection')">New Arrivals</li></ul></div>
+    <div><p class="ft-heading">Info</p><ul class="ft-links"><li onclick="scrollTo('quests')">Quests & Rewards</li><li onclick="scrollTo('sale')">Current Offers</li><li onclick="scrollTo('about')">About Us</li><li>Contact</li></ul></div>
+    <div><p class="ft-heading">Account</p><ul class="ft-links"><li onclick="window.location='/auth'">Sign In</li><li onclick="window.location='/auth'">Create Account</li><li>My Orders</li><li onclick="window.location='/admin'" style="color:var(--gd3)">Admin Panel</li></ul></div>
+  </div>
+  <div class="ft-bottom"><span class="ft-copy">© 2026 Pedez Watch. All rights reserved.</span><span class="ft-copy" style="color:var(--gd3)">◆ Pedez Watch</span></div>
+</footer>
+
+<script src="/js/app.js"></script>
+<script>
+// ── STATE ──
+let cart = [];
+let wishlist = new Set();
+let ckPkg = 'standard', ckDel = 'pickup';
+
+// ── NAV ──
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', scrollY > 60);
+}, {passive:true});
+
+function scrollTo(id) { document.getElementById(id)?.scrollIntoView({behavior:'smooth'}); }
+
+// ── NAV USER ──
+(function earlyInit() {
+  if (user) updateLoyaltyCard();
+})();
+
+// ── CLOCK ──
+function tickClock() {
+  const n=new Date(), cx=130, cy=165;
+  const h=(n.getHours()%12+n.getMinutes()/60)*30;
+  const m=(n.getMinutes()+n.getSeconds()/60)*6;
+  const s=n.getSeconds()*6;
+  const pos=(deg,len)=>{ const r=(deg-90)*Math.PI/180; return {x:cx+Math.cos(r)*len,y:cy+Math.sin(r)*len}; };
+  [['hH',pos(h,35)],['mH',pos(m,50)],['sH',pos(s,44)]].forEach(([id,p])=>{
+    const el=document.getElementById(id); if(el){el.setAttribute('x2',p.x);el.setAttribute('y2',p.y);}
+  });
+}
+tickClock(); setInterval(tickClock, 1000);
+
+// ── COUNTDOWN ──
+(()=>{
+  const end=Date.now()+(47*3600+23*60+59)*1000;
+  const pad=n=>String(n).padStart(2,'0');
+  setInterval(()=>{
+    const d=Math.max(0,end-Date.now());
+    const eh=document.getElementById('tH'),em=document.getElementById('tM'),es=document.getElementById('tS');
+    if(eh)eh.textContent=pad(Math.floor(d/3600000));
+    if(em)em.textContent=pad(Math.floor((d%3600000)/60000));
+    if(es)es.textContent=pad(Math.floor((d%60000)/1000));
+  },1000);
+})();
+
+// ── PARTICLES ──
+(()=>{
+  const wrap=document.getElementById('particles'); if(!wrap) return;
+  for(let i=0;i<24;i++){
+    const p=document.createElement('div'); p.className='particle';
+    const sz=1+Math.random()*3;
+    p.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;bottom:-10px;--dx:${(Math.random()-.5)*160}px;animation-duration:${8+Math.random()*10}s;animation-delay:${Math.random()*8}s`;
+    wrap.appendChild(p);
+  }
+})();
+
+// ── WATCHES ──
+// Watch specs come from the database
+
+let allWatchData = [];
+let currentCategory = 'all';
+
+async function loadWatches(category='all') {
+  const g = document.getElementById('watchGrid');
+  g.innerHTML = `<div style="grid-column:span 3;text-align:center;padding:60px;color:var(--mu)"><div style="margin-bottom:12px"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" style="animation:spin 2s linear infinite"><circle cx="12" cy="12" r="10" stroke-opacity=".2"/><path d="M12 2a10 10 0 0 1 10 10" stroke="#c9a84c"/></svg></div><br>Loading collection...</div>`;
+  try {
+    const url = category==='all' ? '/watches' : `/watches?category=${category}`;
+    allWatchData = await apiFetch('GET', url);
+    currentCategory = category;
+    renderWatches(allWatchData);
+  } catch(e) {
+    g.innerHTML=`<div style="grid-column:span 3;text-align:center;padding:40px;color:var(--mu)"><div style="margin-bottom:12px;opacity:.3"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="7"/><path d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83m.01-10.7l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"/><polyline points="12 9 12 12 13.5 13.5"/></svg></div><br>Could not load watches.<br><small>Is the server running on port 3001?</small></div>`;
+  }
+}
+
+function renderWatches(watches) {
+  const g = document.getElementById('watchGrid');
+  if (!watches.length) {
+    g.innerHTML=`<div style="grid-column:span 3;text-align:center;padding:60px;color:var(--mu)"><div style="font-size:40px;opacity:.2;margin-bottom:14px">🔍</div>No watches found.<br><small style="font-size:11px;margin-top:8px;display:block">Try a different search or category</small></div>`;
+    return;
+  }
+  g.innerHTML = watches.map(w => {
+    const sp = w.price*(1-w.discount/100);
+    const inWish = wishlist.has(w.id);
+    const low = w.stock > 0 && w.stock <= 2;
+    const outOfStock = w.stock === 0;
+    return `<div class="wcard ${outOfStock?'out-of-stock':''}">
+      ${w.discount ? `<div class="wcard-sale">${w.discount}% off</div>` : ''}
+      <button class="wcard-wish ${inWish?'active':''}" onclick="toggleWish(${w.id},this)" title="${inWish?'Remove from':'Add to'} wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+      <div class="wcard-img">
+        ${watchImg(w)}
+        <div class="wcard-overlay"></div>
+        ${low ? `<div class="stock-warning">Only ${w.stock} left!</div>` : ''}
+        ${outOfStock ? `<div class="stock-warning" style="background:rgba(100,100,100,.85)">Out of Stock</div>` : ''}
+        <button class="wcard-qv" onclick="loadAndOpenDetail(${w.id})">Quick View</button>
+      </div>
+      <div class="wcard-body">
+        <div class="wcard-brand">${w.brand}</div>
+        <div class="wcard-name">${w.name}</div>
+        <div class="wcard-bottom">
+          <div class="wcard-price">
+            <span class="wcard-price-now">KES ${Math.ceil(sp*USD_KES).toLocaleString('en-KE')}</span>
+            ${w.discount?`<span class="wcard-price-old">KES ${Math.ceil(w.price*USD_KES).toLocaleString('en-KE')}</span>`:''}
+          </div>
+          ${outOfStock
+            ? `<button class="wcard-add" disabled style="opacity:.3;cursor:not-allowed" title="Out of stock">—</button>`
+            : `<button class="wcard-add" onclick='addToCart(${JSON.stringify({id:w.id,name:w.name,brand:w.brand,price:w.price,discount:w.discount,image_url:w.image_url||""}).replace(/'/g,"&#39;")})' title="Add to cart">+</button>`
+          }
+        </div>
+        ${sp < w.price ? `<div style="font-size:10px;color:#5fc86a;margin-top:6px;letter-spacing:.5px">Save KES ${Math.ceil((w.price-sp)*USD_KES).toLocaleString('en-KE')}</div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterW(cat, btn) {
+  document.querySelectorAll('.f-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.getElementById('collectionSearch').value = '';
+  loadWatches(cat);
+}
+
+function handleCollectionSearch(val) {
+  if (!val.trim()) { renderWatches(allWatchData); return; }
+  const q = val.toLowerCase();
+  renderWatches(allWatchData.filter(w =>
+    w.name.toLowerCase().includes(q) ||
+    w.brand.toLowerCase().includes(q) ||
+    w.category.toLowerCase().includes(q)
+  ));
+}
+
+function quickAddSubmariner() {
+  addToCart({id:1,name:'Submariner Date',brand:'Rolex',price:9600,discount:20,image_url:''});
+}
+
+// ── WISHLIST ──
+function toggleWish(id, btn) {
+  if (wishlist.has(id)) {
+    wishlist.delete(id); btn.classList.remove('active');
+    if(token) apiFetch('DELETE',`/wishlist/${id}`).catch(()=>{});
+    toast('Removed from wishlist');
+  } else {
+    wishlist.add(id); btn.classList.add('active');
+    if(token) apiFetch('POST',`/wishlist/${id}`).catch(()=>{});
+    toast('♥ Added to wishlist');
+  }
+}
+
+// ── CART ──
+function addToCart(w) {
+  const ex=cart.find(x=>x.id===w.id);
+  if(ex) ex.qty++; else cart.push({...w,qty:1});
+  updateCartBadge(); renderCartBody();
+  toast(`${w.name} added to cart ✓`);
+}
+function removeFromCart(id) { cart=cart.filter(x=>x.id!==id); updateCartBadge(); renderCartBody(); }
+function changeQty(id,d) { const i=cart.find(x=>x.id===id); if(i){i.qty=Math.max(1,i.qty+d);updateCartBadge();renderCartBody();} }
+function updateCartBadge() { document.getElementById('cartBadge').textContent=cart.reduce((s,i)=>s+i.qty,0); }
+function openCart() { renderCartBody(); document.getElementById('cartOverlay').classList.add('open'); document.getElementById('cartDrawer').classList.add('open'); }
+function closeCart() { document.getElementById('cartOverlay').classList.remove('open'); document.getElementById('cartDrawer').classList.remove('open'); }
+
+function renderCartBody() {
+  const el=document.getElementById('cartBody');
+  if(!cart.length){
+    el.innerHTML='<div class="cart-empty"><span class="cart-empty-icon">⌚</span>Your cart is empty.<br>Start adding timepieces.</div>';
+    document.getElementById('cartSummary').style.display='none';
+    document.getElementById('csTotalUSD').textContent='KES 0';
+    return;
+  }
+  el.innerHTML=cart.map(i=>{
+    const sp=i.price*(1-i.discount/100);
+    return `<div class="cart-item">
+      <div class="ci-img">${watchImg(i,60)}</div>
+      <div class="ci-info">
+        <div class="ci-brand">${i.brand}</div>
+        <div class="ci-name">${i.name}</div>
+        <div class="ci-qty">
+          <button class="qty-btn" onclick="changeQty(${i.id},-1)">−</button>
+          <span class="ci-qty-num">${i.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${i.id},1)">+</button>
+        </div>
+        <div class="ci-price">${fmtKES(sp*i.qty)}</div>
+      </div>
+      <button class="ci-rm" onclick="removeFromCart(${i.id})" title="Remove">×</button>
+    </div>`;
+  }).join('');
+  const sub=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const dis=cart.reduce((s,i)=>s+i.price*(1-i.discount/100)*i.qty,0);
+  const sav=sub-dis;
+  document.getElementById('cartSummary').style.display='block';
+  document.getElementById('csSub').textContent=fmtKES(sub);
+  document.getElementById('csSave').textContent=sav>0?`-${fmtKES(sav)}`:'KES 0';
+  document.getElementById('csTotalUSD').textContent=fmtKES(dis);
+  
+}
+
+// ── DETAIL MODAL ──
+// ── LOAD AND OPEN DETAIL (full featured) ──
+async function loadAndOpenDetail(id) {
+  currentDetailId = id;
+  try {
+    const w = await apiFetch('GET', `/watches/${id}`);
+    const sp = w.price * (1 - w.discount / 100);
+    // Image
+    const iw = document.getElementById('detImgWrap');
+    if (w.image_url) {
+      const src = w.image_url.startsWith('http') ? w.image_url : BASE + w.image_url;
+      iw.innerHTML = `<img src="${src}" style="max-width:100%;max-height:280px;object-fit:contain" alt="${w.name}" onerror="this.style.display='none'">`;
+    } else {
+      iw.innerHTML = `<div style="display:flex;align-items:center;justify-content:center">${watchSVG(150)}</div>`;
+    }
+    // Text fields
+    document.getElementById('detBrand').textContent = w.brand;
+    document.getElementById('detName').textContent = w.name;
+    document.getElementById('detRef').textContent = w.reference || '';
+    document.getElementById('detPrice').textContent = fmtKES(sp);
+    const oel = document.getElementById('detOld'), sel = document.getElementById('detSave');
+    if (w.discount) {
+      oel.textContent = fmtKES(w.price); oel.style.display = '';
+      sel.textContent = `${w.discount}% off`; sel.style.display = '';
+    } else { oel.style.display = 'none'; sel.style.display = 'none'; }
+    document.getElementById('detPts').textContent = Math.floor(sp).toLocaleString() + ' pts';
+    document.getElementById('detDesc').textContent = w.description || '';
+    // Specs
+    const specs = [];
+    if (w.movement) specs.push({ k: 'Movement', v: w.movement });
+    if (w.reference) specs.push({ k: 'Reference', v: w.reference });
+    specs.push({ k: 'Stock', v: w.stock > 0 ? `${w.stock} available` : 'Out of stock' });
+    document.getElementById('detSpecs').innerHTML = specs.map(s =>
+      `<div class="dspec"><div class="dspec-k">${s.k}</div><div class="dspec-v">${s.v}</div></div>`
+    ).join('');
+    // Add to cart button
+    const btn = document.getElementById('detAddBtn');
+    if (w.stock === 0) {
+      btn.textContent = 'Out of Stock';
+      btn.disabled = true;
+      btn.style.opacity = '0.4';
+      btn.onclick = () => openNotify(w.id);
+    } else {
+      btn.textContent = 'Add to Cart';
+      btn.disabled = false;
+      btn.style.opacity = '';
+      btn.onclick = () => { addToCart(w); closeDetail(); };
+    }
+    // Show write review if logged in
+    const rwBtn = document.getElementById('detWriteReviewBtn');
+    if (rwBtn) rwBtn.style.display = token ? '' : 'none';
+    // Open modal
+    document.getElementById('detailOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    // Load reviews and start viewers
+    loadReviews(id);
+    startViewers(id);
+  } catch (e) { toast('Could not load watch details'); }
+}
+function closeDetail() {
+  document.getElementById('detailOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  stopViewers();
+}
+
+// ── CHECKOUT ──
+function calcTotal(){return cart.reduce((s,i)=>s+i.price*(1-i.discount/100)*i.qty,0)+(ckPkg==='gift'?8:0);}
+function updateCkSummary(){
+  const sub=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const items=cart.reduce((s,i)=>s+i.price*(1-i.discount/100)*i.qty,0);
+  const sav=sub-items; const pkg=ckPkg==='gift'?8:0; const total=items+pkg;
+  document.getElementById('ckSumItems').textContent=fmtKES(sub);
+  document.getElementById('ckSumSave').textContent=sav>0?`-${fmtKES(sav)}`:'KES 0';
+  document.getElementById('ckSumPkg').textContent=pkg?`+${fmtKES(pkg)}`:'Free';
+  document.getElementById('ckSumDel').textContent=ckDel==='pickup'?'Free (Pickup)':'By agreement';
+  document.getElementById('ckTotalUSD').textContent=fmtKES(total);
+  
+  document.getElementById('ckRate').textContent=Math.round(USD_KES);
+  document.getElementById('mpesaKES').textContent='KES '+toKES(total).toLocaleString('en-KE');
+}
+function setPkg(type,el){ckPkg=type;document.querySelectorAll('#pkgStd,#pkgGift').forEach(e=>e.classList.remove('sel'));el.classList.add('sel');updateCkSummary();}
+function setDel(type,el){ckDel=type;document.querySelectorAll('#delPickup,#delLocal,#delNation').forEach(e=>e.classList.remove('sel'));el.classList.add('sel');document.getElementById('addrWrap').style.display=type!=='pickup'?'block':'none';updateCkSummary();}
+function goStep(n){document.querySelectorAll('.ck-step').forEach(s=>s.classList.remove('active'));document.getElementById('ckS'+n).classList.add('active');}
+function openCheckout(){
+  if(!token){toast('Please sign in to checkout');closeCart();window.location='/auth';return;}
+  if(!cart.length){toast('Your cart is empty');return;}
+  ckPkg='standard';ckDel='pickup';
+  document.querySelectorAll('.ck-option').forEach(o=>o.classList.remove('sel'));
+  document.getElementById('pkgStd').classList.add('sel');
+  document.getElementById('delPickup').classList.add('sel');
+  document.getElementById('addrWrap').style.display='none';
+  document.getElementById('ckItemsList').innerHTML=cart.map(i=>{
+    const sp=i.price*(1-i.discount/100);
+    return `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(201,168,76,.07);font-size:12px">
+      <div style="color:var(--wh)">${i.brand} ${i.name} <span style="color:var(--mu)">×${i.qty}</span></div>
+      <div style="color:var(--gd2)">${fmtKES(sp*i.qty)}</div>
+    </div>`;
+  }).join('');
+  updateCkSummary();
+  document.getElementById('mpesaCode').value='';
+  document.getElementById('mpesaPhone').value='';
+  document.getElementById('confirmBtn').disabled=false;
+  document.getElementById('confirmBtn').textContent='Confirm Payment ✓';
+  goStep(1);
+  document.getElementById('checkoutOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeCheckout(){document.getElementById('checkoutOverlay').classList.remove('open');document.body.style.overflow='';}
+function copyAmountBtn(){copyText(toKES(calcTotal()).toString(),document.getElementById('copyAmtBtn'));}
+
+async function confirmPayment(){
+  const code=document.getElementById('mpesaCode').value.trim();
+  const phone=document.getElementById('mpesaPhone').value.trim();
+  if(code.length<6){toast('Enter your M-Pesa confirmation code');return;}
+  if(!phone){toast('Enter your phone number');return;}
+  const btn=document.getElementById('confirmBtn');
+  btn.disabled=true; btn.textContent='Submitting...';
+  try {
+    const items=cart.map(i=>({id:i.id,qty:i.qty}));
+    const addr=document.getElementById('ckAddr')?.value||'';
+    const total=calcTotal();
+    const od=await apiFetch('POST','/orders',{items,address:addr,delivery:ckDel,packaging:ckPkg,mpesa_code:code,phone:'0'+phone.replace(/^0/,'')});
+    const kes=toKES(total);
+    document.getElementById('successInfo').innerHTML=
+      `Order ID: <strong>#PW-${od.id}</strong><br>
+       M-Pesa Ref: <strong>${code}</strong><br>
+       Amount: <strong>${fmtKES(total)} (${fmtUSD(total)})</strong><br>
+       Packaging: <strong>${ckPkg==='gift'?'Luxury Gift Box 🎁':'Standard Box'}</strong><br>
+       Delivery: <strong>${{pickup:'Pickup',local:'Local Delivery',national:'Nationwide'}[ckDel]}</strong><br>
+       Phone: <strong>+254${phone.replace(/^0/,'')}</strong><br>
+       Status: <strong style="color:#f5c842">Awaiting Verification ⏳</strong>`;
+    const pts = od.points_earned || 0;
+    document.getElementById('successPts').textContent=pts.toLocaleString()+' pts';
+    cart=[]; updateCartBadge(); renderCartBody();
+    incrementOrderCount();
+    if(user){user.points=(user.points||0)+pts;localStorage.setItem('pz_user',JSON.stringify(user));updateLoyaltyCard();}
+    goStep(3);
+  } catch(e){toast('Error: '+e.message);btn.disabled=false;btn.textContent='Confirm Payment ✓';}
+}
+
+// Close modals on overlay click
+document.getElementById('detailOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeDetail();});
+document.getElementById('checkoutOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeCheckout();});
+
+// ── QUESTS ──
+function renderQuests(){
+  const g=document.getElementById('questGrid'); if(!g)return;
+  const count=getOrderCount();
+  g.innerHTML=QUESTS.map(q=>{
+    const done=count>=q.milestone;
+    const prev=q.id===1?0:QUESTS[q.id-2].milestone;
+    const prog=Math.max(0,Math.min(count-prev,q.milestone-prev));
+    const total=q.milestone-prev;
+    const pct=Math.min((prog/total)*100,100);
+    const isActive=!done&&count>=prev;
+    const claimed=localStorage.getItem(`pz_q_${q.id}`);
+    return `<div class="qcard ${done?'done':!isActive?'locked':''}">
+      <div class="q-status badge ${done?'badge-gold':isActive?'badge-blue':'badge-grey'}">${done?'✓ Unlocked':isActive?'In Progress':'Locked'}</div>
+      <span class="q-icon">${q.emoji}</span>
+      <div class="q-title">${q.title}</div>
+      <div class="q-desc">${q.desc}</div>
+      <div class="q-prog-lbl"><span>${done?'Completed':`${prog} of ${total} purchases`}</span><strong>${q.milestone} total</strong></div>
+      <div class="q-bar"><div class="q-bar-fill" data-pct="${pct}"></div></div>
+      <div class="q-reward"><span class="q-reward-icon">${q.rEmoji}</span><span class="q-reward-text">${done?q.reward:'Complete quest to reveal reward'}</span></div>
+      ${done&&claimed?`<button class="q-code" onclick="navigator.clipboard?.writeText('${q.code}').then(()=>toast('Code copied! 🎉'))">📋 Copy code: ${q.code}</button>`:''}
+    </div>`;
+  }).join('');
+  setTimeout(()=>document.querySelectorAll('.q-bar-fill').forEach(b=>{b.style.width=b.dataset.pct+'%';}),120);
+}
+
+// ── LOYALTY ──
+function updateLoyaltyCard(){
+  if(!user)return;
+  const pts=user.points||0;
+  const el=document.getElementById('lcPts'); if(el) el.textContent=pts.toLocaleString();
+  const tiers=[{n:'Bronze',min:0,max:500},{n:'Silver',min:500,max:1000},{n:'Gold',min:1000,max:5000},{n:'Platinum',min:5000,max:10000},{n:'Diamond',min:10000,max:99999}];
+  const cur=tiers.find(t=>pts>=t.min&&pts<t.max)||tiers[4];
+  const next=tiers[tiers.indexOf(cur)+1];
+  const lt=document.getElementById('lcTier'); if(lt)lt.textContent=cur.n;
+  const lc=document.getElementById('lcCurTier'); if(lc)lc.textContent=cur.n;
+  if(next){
+    const ln=document.getElementById('lcNextTier'); if(ln)ln.textContent=next.n;
+    const ltn=document.getElementById('lcToNext'); if(ltn)ltn.textContent=`${next.min-pts} pts to ${next.n}`;
+    const pct=((pts-cur.min)/(cur.max-cur.min))*100;
+    setTimeout(()=>{const lbf=document.getElementById('lcBarFill');if(lbf)lbf.style.width=Math.min(pct,100)+'%';},500);
+  } else {
+    const ltn=document.getElementById('lcToNext'); if(ltn)ltn.textContent='Diamond — Max tier!';
+    const lbf=document.getElementById('lcBarFill'); if(lbf)lbf.style.width='100%';
+  }
+}
+
+// ── COUNTER ANIMATION ──
+const cObs=new IntersectionObserver(es=>{es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,t=+el.dataset.t;let c=0;const iv=setInterval(()=>{c=Math.min(c+t/60,t);el.textContent=Math.floor(c)+(t===98?'%':'+');if(c>=t)clearInterval(iv);},25);cObs.unobserve(el);});},{threshold:.5});
+document.querySelectorAll('.counter').forEach(el=>cObs.observe(el));
+
+// ── MUSIC ──
+// ── LUXURY MUSIC PLAYER ──
+// ── MUSIC: loaded from DB ──
+let TRACKS = [];
+
+// Default tracks used as fallback if admin hasn't added any yet
+const DEFAULT_TRACKS = [
+  { name:'Smooth Jazz', artist:'Radio Swiss Jazz', src:'https://stream.srg-ssr.ch/m/rsj/mp3_128' },
+  { name:'Classical Piano', artist:'Radio Swiss Classic', src:'https://stream.srg-ssr.ch/m/rsc_de/mp3_128' },
+  { name:'Bossa Nova Lounge', artist:'Café vibes', src:'https://streams.ilovemusic.de/iloveradio17.mp3' },
+  { name:'Lo-Fi Chill', artist:'Deep focus · ambient', src:'https://stream.zeno.fm/f3wvbbqmdg8uv' },
+  { name:'Jazz & Blues', artist:'Late night sessions', src:'https://stream.zeno.fm/yn65m63h8zzuv' },
+];
+
+async function loadMusicTracks() {
+  try {
+    const data = await apiFetch('GET', '/music');
+    TRACKS = data.length ? data : DEFAULT_TRACKS;
+  } catch {
+    TRACKS = DEFAULT_TRACKS;
+  }
+  renderTrackDots();
+  document.getElementById('mTrackName').textContent = TRACKS[0]?.name || 'Luxury Lounge';
+  document.getElementById('mSub').textContent = TRACKS[0]?.artist || '▶ to play';
+}
+
+let mCurrentTrack = 0;
+let mPlaying = false;
+const aud = document.getElementById('bgAudio');
+
+function renderTrackDots() {
+  const dots = document.getElementById('mDots');
+  if (!dots) return;
+  dots.innerHTML = TRACKS.map((_, i) =>
+    `<span class="m-dot ${i===mCurrentTrack?'active':''}" onclick="playTrack(${i})"></span>`
+  ).join('');
+}
+
+function playTrack(index) {
+  mCurrentTrack = index % TRACKS.length;
+  const track = TRACKS[mCurrentTrack];
+  aud.src = track.src;
+  aud.volume = parseFloat(document.getElementById('mVol').value);
+  aud.loop = track.stream;
+  document.getElementById('mTrackName').textContent = track.name;
+  document.getElementById('mSub').textContent = track.artist;
+  renderTrackDots();
+  aud.play()
+    .then(() => {
+      mPlaying = true;
+      document.getElementById('musicPlayer').classList.remove('paused');
+      document.getElementById('mBtn').textContent = '⏸';
+      document.getElementById('mbars').style.opacity = '1';
+    })
+    .catch(() => {
+      // Stream unavailable — try next after short delay
+      setTimeout(() => nextTrack(), 1200);
+    });
+}
+
+// Skip on network error mid-stream
+aud.addEventListener('error', () => {
+  if (mPlaying) setTimeout(() => nextTrack(), 1200);
+});
+
+function nextTrack() {
+  if (mPlaying) playTrack(mCurrentTrack + 1);
+  else { mCurrentTrack = (mCurrentTrack + 1) % TRACKS.length; renderTrackDots(); document.getElementById('mTrackName').textContent = TRACKS[mCurrentTrack].name; }
+}
+
+function prevTrack() {
+  if (mPlaying) playTrack((mCurrentTrack - 1 + TRACKS.length) % TRACKS.length);
+  else { mCurrentTrack = (mCurrentTrack - 1 + TRACKS.length) % TRACKS.length; renderTrackDots(); document.getElementById('mTrackName').textContent = TRACKS[mCurrentTrack].name; }
+}
+
+function toggleMusic() {
+  if (aud.paused || !mPlaying) {
+    playTrack(mCurrentTrack);
+  } else {
+    aud.pause();
+    mPlaying = false;
+    document.getElementById('musicPlayer').classList.add('paused');
+    document.getElementById('mBtn').textContent = '▶';
+    document.getElementById('mSub').textContent = 'Paused';
+  }
+}
+
+function setVol(v) { aud.volume = parseFloat(v); }
+
+// Auto-next on track end (for non-streams)
+aud.addEventListener('ended', () => nextTrack());
+
+// Init dots
+renderTrackDots();
+
+// ── NAV SEARCH ──
+let searchOpen = false;
+function toggleSearch() {
+  searchOpen = !searchOpen;
+  const box = document.getElementById('navSearchBox');
+  box.classList.toggle('open', searchOpen);
+  if (searchOpen) setTimeout(() => document.getElementById('navSearchInput').focus(), 300);
+  else { document.getElementById('navSearchInput').value = ''; document.getElementById('searchResults').classList.remove('show'); }
+}
+
+async function handleSearch(val) {
+  const results = document.getElementById('searchResults');
+  if (!val.trim()) { results.classList.remove('show'); return; }
+  try {
+    const data = await apiFetch('GET', `/watches?search=${encodeURIComponent(val)}`);
+    if (!data.length) {
+      results.innerHTML = `<div class="sr-empty">No results for "${val}"</div>`;
+    } else {
+      results.innerHTML = data.slice(0,6).map(w => {
+        const sp = Math.round(w.price*(1-w.discount/100));
+        const src = w.image_url ? (w.image_url.startsWith('http')?w.image_url:BASE+w.image_url) : '';
+        return `<div class="sr-item" onclick="loadAndOpenDetail(${w.id});toggleSearch()">
+          <div class="sr-img">${src?`<img src="${src}" onerror="this.style.display='none'">`:'<div style="font-size:20px;opacity:.3">⌚</div>'}</div>
+          <div><div class="sr-brand">${w.brand}</div><div class="sr-name">${w.name}</div><div class="sr-price">$${sp.toLocaleString()}${w.discount?` <span style="color:var(--mu);text-decoration:line-through;font-size:10px">$${Math.round(w.price).toLocaleString()}</span>`:''}</div></div>
+        </div>`;
+      }).join('');
+    }
+    results.classList.add('show');
+  } catch { results.classList.remove('show'); }
+}
+
+// Close search on outside click
+document.addEventListener('click', e => {
+  if (!document.getElementById('navSearchWrap')?.contains(e.target) &&
+      !document.getElementById('searchResults')?.contains(e.target)) {
+    document.getElementById('searchResults')?.classList.remove('show');
+  }
+});
+
+// ── MOBILE MENU ──
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const ham  = document.getElementById('navHam');
+  menu.classList.toggle('open');
+  ham.classList.toggle('open');
+}
+
+// ── USER DROPDOWN ──
+function toggleUserMenu() {
+  document.getElementById('navDropdown').classList.toggle('open');
+}
+document.addEventListener('click', e => {
+  const wrap = document.getElementById('navUserWrap');
+  if (wrap && !wrap.contains(e.target)) document.getElementById('navDropdown')?.classList.remove('open');
+});
+
+// ── MY ORDERS ──
+async function openMyOrders() {
+  document.getElementById('navDropdown')?.classList.remove('open');
+  if (!token) { window.location='/auth'; return; }
+  document.getElementById('ordersModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  const body = document.getElementById('ordersBody');
+  body.innerHTML = '<div class="loading-state"></div>';
+  try {
+    const orders = await apiFetch('GET', '/orders/my');
+    if (!orders.length) {
+      body.innerHTML = `<div class="empty-state"><span class="empty-state-icon">◱</span><div class="empty-state-text">No orders yet. Start shopping!</div><button class="btn btn-gold btn-sm" onclick="closeMyOrders();scrollTo('collection')">Browse Collection</button></div>`;
+      return;
+    }
+    body.innerHTML = orders.map(o => {
+      const delLabel = {pickup:'Pickup',local:'Local Delivery',national:'Nationwide Delivery'}[o.delivery] || o.delivery || 'Pickup';
+      const pkgLabel = o.packaging==='gift' ? '🎁 Gift Box' : '📦 Standard Box';
+      return `<div class="order-card">
+        <div class="oc-top">
+          <div>
+            <div class="oc-id">Order #PW-${o.id}</div>
+            <div class="oc-items">${o.items_desc || 'Items'}</div>
+            <div class="oc-date">${new Date(o.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div>
+          </div>
+          <div class="oc-right">
+            <div class="oc-amount">$${Math.round(o.total).toLocaleString()}</div>
+            <div class="oc-status ${o.status}">${o.status.replace(/_/g,' ')}</div>
+          </div>
+        </div>
+        <div class="oc-footer">
+          <span>${delLabel}</span><span>·</span><span>${pkgLabel}</span>
+          ${o.mpesa_code?`<span>·</span><span style="font-family:monospace;color:var(--gd2)">${o.mpesa_code}</span>`:''}
+          ${o.status==='delivered'?`<button class="wl-btn" style="margin-left:auto;padding:4px 10px;font-size:9px" onclick="openCertificate(${o.id})">◆ Certificate</button>`:''}
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e) { body.innerHTML = `<div class="empty-state"><span class="empty-state-icon">⚠</span><div class="empty-state-text">Could not load orders.<br>${e.message}</div></div>`; }
+}
+function closeMyOrders() {
+  document.getElementById('ordersModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── WISHLIST MODAL ──
+async function openWishlist() {
+  document.getElementById('navDropdown')?.classList.remove('open');
+  if (!token) { window.location='/auth'; return; }
+  document.getElementById('wishlistModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  const body = document.getElementById('wishlistBody');
+  body.innerHTML = '<div class="loading-state"></div>';
+  try {
+    const items = await apiFetch('GET', '/wishlist');
+    items.forEach(w => wishlist.add(w.id));
+    if (!items.length) {
+      body.innerHTML = `<div class="empty-state"><span class="empty-state-icon">♥</span><div class="empty-state-text">Your wishlist is empty.<br>Click ♥ on any watch to save it.</div><button class="btn btn-gold btn-sm" onclick="closeWishlist();scrollTo('collection')">Browse Collection</button></div>`;
+      return;
+    }
+    body.innerHTML = `<div>${items.map(w => {
+      const sp = Math.round(w.price*(1-w.discount/100));
+      const src = w.image_url ? (w.image_url.startsWith('http')?w.image_url:BASE+w.image_url) : '';
+      return `<div class="wl-item" id="wli-${w.id}">
+        <div class="wl-img">${src?`<img src="${src}" onerror="this.style.display='none'">`:'<div style="font-size:20px;opacity:.3">⌚</div>'}</div>
+        <div class="wl-info">
+          <div class="wl-brand">${w.brand}</div>
+          <div class="wl-name">${w.name}</div>
+          <div class="wl-price">$${sp.toLocaleString()}${w.discount?` <span style="color:var(--mu);text-decoration:line-through;font-size:10px">$${Math.round(w.price).toLocaleString()}</span>`:''}</div>
+        </div>
+        <div class="wl-actions">
+          <button class="wl-btn" onclick="addToCart(${JSON.stringify(w).replace(/"/g,'&quot;')});toast('${w.name} added to cart')">Add to Cart</button>
+          <button class="wl-btn remove" onclick="removeFromWishlist(${w.id})">✕</button>
+        </div>
+      </div>`;
+    }).join('')}</div>`;
+  } catch(e) { body.innerHTML = `<div class="empty-state"><span class="empty-state-icon">⚠</span><div class="empty-state-text">Could not load wishlist.<br>${e.message}</div></div>`; }
+}
+
+function closeWishlist() {
+  document.getElementById('wishlistModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function removeFromWishlist(id) {
+  wishlist.delete(id);
+  if (token) apiFetch('DELETE', `/wishlist/${id}`).catch(()=>{});
+  const el = document.getElementById(`wli-${id}`);
+  if (el) { el.style.opacity='0'; el.style.transition='opacity .3s'; setTimeout(()=>el.remove(),300); }
+  document.querySelectorAll(`.wcard-wish[onclick*="toggleWish(${id}"]`).forEach(b=>b.classList.remove('active'));
+  toast('Removed from wishlist');
+}
+
+function doLogout() {
+  clearAuth();
+  document.getElementById('navUserWrap').style.display = 'none';
+  document.getElementById('navAuthBtn').style.display = '';
+  document.getElementById('navDropdown')?.classList.remove('open');
+  toast('Signed out');
+  setTimeout(() => window.location.reload(), 500);
+}
+
+// ── INIT NAV USER STATE ──
+function initNav() {
+  if (user) {
+    document.getElementById('navUserWrap').style.display = '';
+    document.getElementById('navAuthBtn').style.display = 'none';
+    document.getElementById('navAvatar').textContent = user.name.charAt(0).toUpperCase();
+    document.getElementById('ndName').textContent = user.name;
+    document.getElementById('ndPts').textContent = (user.points||0).toLocaleString() + ' Pedez Points';
+    // Preload wishlist so heart icons show correctly
+    apiFetch('GET','/wishlist').then(items => {
+      items.forEach(w => wishlist.add(w.id));
+      // Re-render watches so hearts show active
+      if(allWatchData.length) renderWatches(allWatchData);
+    }).catch(()=>{});
+  }
+}
+
+// ── ORDER TRACKING ──
+function openTrack(){
+  document.getElementById('trackModal').classList.add('open');
+  document.body.style.overflow='hidden';
+  document.getElementById('trackInput').focus();
+}
+function closeTrack(){document.getElementById('trackModal').classList.remove('open');document.body.style.overflow='';}
+
+async function trackOrder(){
+  const raw = document.getElementById('trackInput').value.trim().replace(/^PW-/i,'');
+  const id = parseInt(raw);
+  if(!id){toast('Enter a valid order ID like PW-12');return;}
+  const el = document.getElementById('trackResult');
+  el.innerHTML='<div class="loading-state"></div>';
+  try{
+    const o = await apiFetch('GET',`/track/${id}`);
+    const steps=['pending','awaiting_payment','confirmed','shipped','delivered'];
+    const cur = steps.indexOf(o.status);
+    const labels={pending:'Order Placed',awaiting_payment:'Payment Received',confirmed:'Confirmed',shipped:'Shipped',delivered:'Delivered'};
+    const icons={pending:'◱',awaiting_payment:'◆',confirmed:'✓',shipped:'🚚',delivered:'✓'};
+    el.innerHTML=`
+      <div style="background:var(--bk3);border:1px solid rgba(201,168,76,.1);padding:20px;margin-bottom:16px">
+        <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gd);margin-bottom:6px">Order #PW-${o.id}</div>
+        <div style="font-family:'Playfair Display',serif;font-size:20px;color:var(--wh);margin-bottom:4px">${o.items_desc||'Your Order'}</div>
+        <div style="font-size:11px;color:var(--mu)">${new Date(o.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div>
+      </div>
+      <div class="track-steps">
+        ${steps.map((s,i)=>`<div class="track-step ${i<=cur?'done':''} ${i===cur?'active':''}">
+          <div class="ts-dot">${i<=cur?icons[s]:'○'}</div>
+          <div class="ts-label">${labels[s]}</div>
+        </div>`).join('<div class="ts-line"></div>')}
+      </div>
+      ${o.mpesa_code?`<div style="margin-top:16px;font-size:11px;color:var(--mu)">M-Pesa ref: <span style="font-family:monospace;color:var(--gd2)">${o.mpesa_code}</span></div>`:''}`;
+  }catch(e){el.innerHTML=`<div class="empty-state"><span class="empty-state-icon">◎</span><div class="empty-state-text">Order not found.<br>Check your ID and try again.</div></div>`;}
+}
+
+// ── NOTIFY ME ──
+let notifyWatchId = null;
+function openNotify(watchId){
+  notifyWatchId = watchId;
+  document.getElementById('notifyWatchId').value = watchId;
+  document.getElementById('notifyModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeNotify(){document.getElementById('notifyModal').classList.remove('open');document.body.style.overflow='';}
+async function submitNotify(){
+  const phone = document.getElementById('notifyPhone').value.trim();
+  const email = document.getElementById('notifyEmail').value.trim();
+  const watchId = document.getElementById('notifyWatchId').value;
+  if(!phone&&!email){toast('Enter your phone or email');return;}
+  try{
+    await apiFetch('POST','/notify-stock',{watch_id:watchId,phone,email});
+    toast("Got it — we'll WhatsApp you when it's back!");
+    closeNotify();
+  }catch(e){toast('Error: '+e.message);}
+}
+
+// ── REFERRAL ──
+async function openReferral(){
+  if(!token){window.location='/auth';return;}
+  document.getElementById('navDropdown')?.classList.remove('open');
+  document.getElementById('referralModal').classList.add('open');
+  document.body.style.overflow='hidden';
+  try{
+    const d = await apiFetch('GET','/referral/code');
+    document.getElementById('refCode').textContent = d.code;
+    document.getElementById('refCount').textContent = d.referrals;
+    document.getElementById('refEarned').textContent = (d.earned||0).toLocaleString()+' pts';
+  }catch(e){toast('Error loading referral: '+e.message);}
+}
+function closeReferral(){document.getElementById('referralModal').classList.remove('open');document.body.style.overflow='';}
+function copyRefCode(){
+  const code = document.getElementById('refCode').textContent;
+  navigator.clipboard?.writeText(code).then(()=>toast('Referral code copied!'));
+}
+function shareRefWhatsApp(){
+  const code = document.getElementById('refCode').textContent;
+  const msg = `Hey! I found this amazing luxury watch store — Pedez Watch. Use my referral code *${code}* when you sign up and we both get 500 bonus points. Check them out: ${window.location.origin}`;
+  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank');
+}
+
+// ── CERTIFICATE ──
+async function openCertificate(orderId){
+  document.getElementById('certModal').classList.add('open');
+  document.body.style.overflow='hidden';
+  const body = document.getElementById('certBody');
+  body.innerHTML='<div class="loading-state"></div>';
+  try{
+    const c = await apiFetch('GET',`/certificate/${orderId}`);
+    body.innerHTML=`
+      <div style="border:1px solid rgba(201,168,76,.3);padding:28px;position:relative;overflow:hidden">
+        <div style="position:absolute;inset:8px;border:1px solid rgba(201,168,76,.08);pointer-events:none"></div>
+        <div style="text-align:center;margin-bottom:24px">
+          <div style="font-size:8px;letter-spacing:5px;text-transform:uppercase;color:var(--gd);margin-bottom:8px">Certificate of Authenticity</div>
+          <div style="font-family:'Playfair Display',serif;font-size:26px;color:var(--wh)">PEDEZ WATCH</div>
+          <div style="font-size:9px;letter-spacing:3px;color:var(--mu);margin-top:4px">EST. 2024</div>
+        </div>
+        <div style="height:1px;background:linear-gradient(90deg,transparent,var(--gd),transparent);margin-bottom:20px"></div>
+        <p style="font-size:12px;color:var(--mu);line-height:1.9;margin-bottom:18px;text-align:center">${c.statement}</p>
+        <div style="margin-bottom:16px">
+          ${c.items.map(i=>`<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(201,168,76,.08)">
+            <div><div style="font-size:13px;color:var(--wh);font-weight:500">${i.brand} ${i.name}</div><div style="font-size:10px;color:var(--mu);letter-spacing:1px;margin-top:2px">${i.reference||'—'} · ${i.movement||'—'}</div></div>
+            <div style="font-size:13px;color:var(--gd2)">$${Math.round(i.price).toLocaleString()}</div>
+          </div>`).join('')}
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--mu);margin-top:20px">
+          <div>Issued to: <strong style="color:var(--wh)">${c.issued_to}</strong></div>
+          <div>Order: <strong style="color:var(--wh)">${c.order_id}</strong></div>
+        </div>
+        <div style="text-align:center;margin-top:16px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mu2)">${c.certificate_id}</div>
+      </div>
+      <button class="btn btn-gold btn-full" style="margin-top:14px" onclick="window.print()">Print Certificate</button>`;
+  }catch(e){body.innerHTML=`<div class="empty-state"><span class="empty-state-icon">◎</span><div class="empty-state-text">${e.message}</div></div>`;}
+}
+function closeCert(){document.getElementById('certModal').classList.remove('open');document.body.style.overflow='';}
+
+// ── SHARE WATCH ──
+let currentDetailId = null;
+function shareWatch(){
+  const name = document.getElementById('detName').textContent;
+  const brand = document.getElementById('detBrand').textContent;
+  const url = `${window.location.origin}/?watch=${currentDetailId}`;
+  const msg = `Check out this ${brand} ${name} on Pedez Watch — ${url}`;
+  if(navigator.share){navigator.share({title:`${brand} ${name}`,text:msg,url});}
+  else{
+    navigator.clipboard?.writeText(url).then(()=>toast('Link copied to clipboard!'));
+  }
+}
+
+// ── LIVE VIEWERS ──
+let viewerSid = localStorage.getItem('pz_sid') || Math.random().toString(36).slice(2);
+localStorage.setItem('pz_sid', viewerSid);
+let viewerInterval = null;
+
+async function startViewers(watchId){
+  stopViewers();
+  async function ping(){
+    try{
+      const d = await fetch(`${API}/viewers/${watchId}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sid:viewerSid})}).then(r=>r.json());
+      const el = document.getElementById('detViewers');
+      const ct = document.getElementById('detViewerCount');
+      if(el&&ct){
+        ct.textContent = d.count;
+        el.style.display = d.count>1?'flex':'none';
+      }
+    }catch{}
+  }
+  ping();
+  viewerInterval = setInterval(ping, 30000);
+}
+function stopViewers(){if(viewerInterval){clearInterval(viewerInterval);viewerInterval=null;}}
+
+// ── REVIEWS ──
+let reviewStars = 0;
+function setStars(n){
+  reviewStars=n;
+  document.getElementById('reviewStars').value=n;
+  document.querySelectorAll('.sp-star').forEach((s,i)=>{
+    s.style.color = i<n?'#c9a84c':'#333';
+  });
+}
+
+function openWriteReview(){
+  const watchId = currentDetailId;
+  document.getElementById('reviewWatchId').value = watchId;
+  reviewStars=0;
+  document.querySelectorAll('.sp-star').forEach(s=>s.style.color='#333');
+  document.getElementById('reviewTitle').value='';
+  document.getElementById('reviewBody').value='';
+  document.getElementById('reviewModal').classList.add('open');
+}
+function closeReview(){document.getElementById('reviewModal').classList.remove('open');}
+
+async function submitReview(){
+  if(!token){toast('Sign in to leave a review');return;}
+  const stars = parseInt(document.getElementById('reviewStars').value);
+  const title = document.getElementById('reviewTitle').value.trim();
+  const body = document.getElementById('reviewBody').value.trim();
+  const watchId = document.getElementById('reviewWatchId').value;
+  if(!stars){toast('Please select a star rating');return;}
+  if(!body){toast('Please write your review');return;}
+  try{
+    await apiFetch('POST','/reviews',{watch_id:watchId,rating:stars,title,body});
+    toast('Review submitted — thank you!');
+    closeReview();
+    loadReviews(watchId);
+  }catch(e){toast('Error: '+e.message);}
+}
+
+async function loadReviews(watchId){
+  try{
+    const d = await apiFetch('GET',`/reviews/${watchId}`);
+    const el = document.getElementById('detReviewsList');
+    const ratingEl = document.getElementById('detRating');
+    if(!el)return;
+    if(d.avg){
+      document.getElementById('detStars').textContent='★'.repeat(Math.round(d.avg))+'☆'.repeat(5-Math.round(d.avg));
+      document.getElementById('detRatingCount').textContent=`${d.avg} · ${d.count} review${d.count!==1?'s':''}`;
+      ratingEl.style.display='flex';
+    }else{ratingEl.style.display='none';}
+    if(!d.reviews.length){
+      el.innerHTML='<div style="font-size:12px;color:var(--mu);padding:14px 0">No reviews yet. Be the first.</div>';
+      return;
+    }
+    el.innerHTML=d.reviews.map(r=>`
+      <div style="padding:14px 0;border-bottom:1px solid rgba(201,168,76,.07)">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+          <span style="color:#c9a84c;font-size:12px">${'★'.repeat(r.rating)}<span style="color:#222">${'★'.repeat(5-r.rating)}</span></span>
+          <span style="font-size:11px;color:var(--wh);font-weight:500">${r.reviewer_name||'Buyer'}</span>
+          <span style="font-size:10px;color:var(--mu);margin-left:auto">${new Date(r.created_at).toLocaleDateString('en-GB',{month:'short',year:'numeric'})}</span>
+        </div>
+        ${r.title?`<div style="font-size:12px;color:var(--wh);font-weight:500;margin-bottom:4px">${r.title}</div>`:''}
+        <div style="font-size:12px;color:var(--mu);line-height:1.7">${r.body}</div>
+        ${r.verified_purchase?'<div style="font-size:10px;color:var(--green);margin-top:5px;letter-spacing:1px">✓ Verified Purchase</div>':''}
+      </div>`).join('');
+  }catch{}
+}
+
+// ── ABANDONED CART ──
+let cartTimer = null;
+function resetCartTimer(){
+  clearTimeout(cartTimer);
+  if(!cart.length||!token)return;
+  cartTimer = setTimeout(()=>{
+    if(cart.length>0&&!token) document.getElementById('cartNudge').style.display='block';
+  }, 60000);
+}
+
+async function saveAbandonedCart(){
+  const phone = document.getElementById('nudgePhone').value.trim();
+  if(!phone){toast('Enter your phone number');return;}
+  try{
+    await apiFetch('POST','/cart/save',{phone,items:cart.map(i=>({id:i.id,name:i.name,qty:i.qty}))});
+    document.getElementById('cartNudge').style.display='none';
+    toast("Saved! We'll remind you on WhatsApp 👍");
+  }catch(e){toast('Error: '+e.message);}
+}
+
+// Init track modal from URL param
+(()=>{
+  const params = new URLSearchParams(window.location.search);
+  const wid = params.get('watch');
+  if(wid) setTimeout(()=>loadAndOpenDetail(parseInt(wid)), 800);
+})();
+renderQuests();
+initReveal();
+initNav();
+loadMusicTracks();
+</script>
+</body>
+</html>

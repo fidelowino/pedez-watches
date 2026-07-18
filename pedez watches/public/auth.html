@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pedez Watch — Sign In</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bk:#080808;--bk2:#111;--bk3:#1a1a1a;--gd:#c9a84c;--gd2:#e8c97a;--gd3:#a07830;--wh:#f5f0e8;--wh2:#ddd8ce;--mu:#6e6e66;--mu2:#4a4a44}
+body{background:var(--bk);color:var(--wh);font-family:'Montserrat',sans-serif;font-weight:300;min-height:100vh;display:flex}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--gd3)}
+button{font-family:'Montserrat',sans-serif;cursor:pointer}
+
+.auth-left{flex:1;background:var(--bk2);border-right:1px solid rgba(201,168,76,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px;position:relative;overflow:hidden}
+.al-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.06) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation:breathe 6s ease-in-out infinite;pointer-events:none}
+@keyframes breathe{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.1)}}
+.al-watch{position:relative;z-index:1;margin-bottom:44px}
+.al-watch svg{animation:float 6s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-18px) rotate(-5deg)}}
+.al-tagline{position:relative;z-index:1;text-align:center}
+.al-tagline h2{font-family:'Playfair Display',serif;font-size:36px;font-weight:400;color:var(--wh);line-height:1.15;margin-bottom:14px}
+.al-tagline h2 em{font-style:italic;color:var(--gd2);display:block}
+.al-tagline p{font-size:12px;color:var(--mu);letter-spacing:2px;text-transform:uppercase}
+.al-features{margin-top:40px;display:flex;flex-direction:column;gap:14px;width:100%;max-width:320px}
+.al-feature{display:flex;align-items:center;gap:14px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.1);padding:14px 18px}
+.al-feature-icon{font-size:20px;flex-shrink:0}
+.al-feature-text{font-size:12px;color:var(--wh2)}
+
+.auth-right{width:480px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 52px;overflow-y:auto}
+.ar-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;letter-spacing:4px;color:var(--wh);text-transform:uppercase;margin-bottom:48px;cursor:pointer;text-decoration:none;display:block;text-align:center}
+.ar-logo span{color:var(--gd)}
+.ar-tabs{display:flex;border-bottom:1px solid rgba(201,168,76,.15);margin-bottom:40px;width:100%}
+.ar-tab{flex:1;background:none;border:none;padding:14px;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--mu);position:relative;transition:color .3s}
+.ar-tab.on{color:var(--gd)}
+.ar-tab.on::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;background:var(--gd)}
+.ar-form{width:100%;display:none}
+.ar-form.on{display:block}
+.fg{margin-bottom:18px}
+.flabel{display:block;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gd3);margin-bottom:8px}
+.finput{width:100%;background:var(--bk3);border:1px solid rgba(201,168,76,.18);color:var(--wh);padding:14px 15px;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:300;outline:none;transition:border-color .3s}
+.finput:focus{border-color:var(--gd)}
+.finput::placeholder{color:var(--mu2)}
+.btn-submit{width:100%;padding:16px;background:var(--gd);border:none;color:var(--bk);font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;font-weight:700;margin-top:6px;transition:background .3s}
+.btn-submit:hover{background:var(--gd2)}
+.form-alt{text-align:center;margin-top:20px;font-size:12px;color:var(--mu)}
+.form-alt a{color:var(--gd);cursor:pointer;text-decoration:none}
+.form-alt a:hover{color:var(--gd2)}
+.form-divider{text-align:center;margin:20px 0;font-size:11px;color:var(--mu);position:relative}
+.form-divider::before,.form-divider::after{content:'';position:absolute;top:50%;width:44%;height:1px;background:rgba(201,168,76,.12)}
+.form-divider::before{left:0}.form-divider::after{right:0}
+.error-msg{background:rgba(226,75,74,.1);border:1px solid rgba(226,75,74,.3);color:#e24b4a;padding:12px 14px;font-size:12px;margin-bottom:16px;display:none}
+.success-msg{background:rgba(95,200,106,.1);border:1px solid rgba(95,200,106,.3);color:#5fc86a;padding:12px 14px;font-size:12px;margin-bottom:16px;display:none}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bk2);border:1px solid var(--gd);color:var(--wh);padding:13px 22px;font-size:12px;z-index:900;transform:translateY(14px);opacity:0;transition:all .4s;pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+.back-link{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--mu);text-decoration:none;margin-bottom:32px;transition:color .3s;align-self:flex-start}
+.back-link:hover{color:var(--wh)}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- LEFT PANEL -->
+<div class="auth-left">
+  <div class="al-glow"></div>
+  <div class="al-watch">
+    <svg width="200" height="256" viewBox="0 0 260 330" fill="none">
+      <rect x="95" y="0" width="70" height="72" rx="10" fill="#141414" stroke="#1e1e1e"/>
+      <rect x="95" y="258" width="70" height="72" rx="10" fill="#141414" stroke="#1e1e1e"/>
+      <rect x="38" y="68" width="184" height="194" rx="32" fill="#0e0e0e" stroke="#c9a84c" stroke-width="1.5"/>
+      <rect x="222" y="150" width="20" height="26" rx="5" fill="#1a1a1a" stroke="#c9a84c"/>
+      <circle cx="130" cy="165" r="74" fill="#080808" stroke="#c9a84c" stroke-width=".8"/>
+      <rect x="127" y="97" width="6" height="13" rx="1" fill="#c9a84c"/>
+      <rect x="127" y="220" width="6" height="13" rx="1" fill="#c9a84c"/>
+      <rect x="63" y="162" width="13" height="6" rx="1" fill="#c9a84c"/>
+      <rect x="184" y="162" width="13" height="6" rx="1" fill="#c9a84c"/>
+      <text x="130" y="148" font-family="Montserrat,sans-serif" font-size="9" font-weight="500" letter-spacing="5" fill="#c9a84c" text-anchor="middle">PEDEZ</text>
+      <text x="130" y="159" font-family="Montserrat,sans-serif" font-size="5" letter-spacing="2" fill="#2a2a2a" text-anchor="middle">AUTOMATIC</text>
+      <line x1="130" y1="165" x2="120" y2="128" stroke="#e8c97a" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="130" y1="165" x2="155" y2="122" stroke="#f5f0e8" stroke-width="2.2" stroke-linecap="round"/>
+      <line id="sH" x1="130" y1="172" x2="123" y2="200" stroke="#c9a84c" stroke-width="1.1" stroke-linecap="round"/>
+      <circle cx="130" cy="165" r="4.5" fill="#c9a84c"/>
+      <circle cx="130" cy="165" r="2" fill="#080808"/>
+    </svg>
+  </div>
+  <div class="al-tagline">
+    <h2>Every second<br>is <em>precious.</em></h2>
+    <p>Join thousands of watch enthusiasts</p>
+  </div>
+  <div class="al-features">
+    <div class="al-feature"><span class="al-feature-icon">◆</span><span class="al-feature-text">Earn Pedez Points on every purchase</span></div>
+    <div class="al-feature"><span class="al-feature-icon">🏆</span><span class="al-feature-text">Unlock exclusive collector rewards</span></div>
+    <div class="al-feature"><span class="al-feature-icon">⌚</span><span class="al-feature-text">Track orders and manage your wishlist</span></div>
+  </div>
+</div>
+
+<!-- RIGHT PANEL -->
+<div class="auth-right">
+  <a class="back-link" href="/">← Back to store</a>
+  <a class="ar-logo" href="/" style="display:flex;flex-direction:column;align-items:center;gap:10px;text-decoration:none"><svg class="pedez-logo-icon" width="52" height="52" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg-g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f5e8a8"/><stop offset="40%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#7a5010"/></linearGradient><linearGradient id="lg-v" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#eedb70"/><stop offset="50%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#7a5010"/></linearGradient><linearGradient id="lg-b" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2e2208"/><stop offset="25%" stop-color="#d4a83c"/><stop offset="50%" stop-color="#f0d060"/><stop offset="75%" stop-color="#4a3208"/><stop offset="100%" stop-color="#c9a84c"/></linearGradient></defs><g stroke-linecap="round"><g stroke="#c9a84c" stroke-width="0.9"><line x1="18" y1="1" x2="18" y2="4.2"/><line x1="27.5" y1="3.85" x2="25.8" y2="6.75"/><line x1="34.15" y1="10.5" x2="31.25" y2="12.2"/><line x1="35" y1="18" x2="31.8" y2="18"/><line x1="34.15" y1="25.5" x2="31.25" y2="23.8"/><line x1="27.5" y1="32.15" x2="25.8" y2="29.25"/><line x1="18" y1="35" x2="18" y2="31.8"/><line x1="8.5" y1="32.15" x2="10.2" y2="29.25"/><line x1="1.85" y1="25.5" x2="4.75" y2="23.8"/><line x1="1" y1="18" x2="4.2" y2="18"/><line x1="1.85" y1="10.5" x2="4.75" y2="12.2"/><line x1="8.5" y1="3.85" x2="10.2" y2="6.75"/></g><g stroke="#3a2a08" stroke-width="0.5"><line x1="23.2" y1="1.7" x2="22.2" y2="4.7"/><line x1="30.8" y1="5.2" x2="29" y2="7.6"/><line x1="34.8" y1="12.8" x2="32.4" y2="14.6"/><line x1="34.3" y1="22.8" x2="31.3" y2="22.1"/><line x1="30.8" y1="30.8" x2="29" y2="28.4"/><line x1="23.2" y1="34.3" x2="22.2" y2="31.3"/><line x1="12.8" y1="34.3" x2="13.8" y2="31.3"/><line x1="5.2" y1="30.8" x2="7" y2="28.4"/><line x1="1.7" y1="22.8" x2="4.7" y2="22.1"/><line x1="1.7" y1="13.2" x2="4.7" y2="13.9"/><line x1="5.2" y1="5.2" x2="7" y2="7.6"/><line x1="12.8" y1="1.7" x2="13.8" y2="4.7"/></g></g><circle cx="18" cy="18" r="17" fill="none" stroke="url(#lg-b)" stroke-width="2.2"/><circle cx="18" cy="18" r="15.8" fill="none" stroke="#0a0a0a" stroke-width="0.3"/><circle cx="18" cy="18" r="15" fill="#070707"/><circle cx="18" cy="18" r="15" fill="none" stroke="#1a1a1a" stroke-width="0.4"/><polygon points="18,3 19.4,10 18,8 16.6,10" fill="url(#lg-v)"/><polygon points="18,33 18.8,27 18,29 17.2,27" fill="#181818"/><polygon points="33,18 27,18.8 29,18 27,17.2" fill="#161616"/><polygon points="3,18 9,18.8 7,18 9,17.2" fill="#161616"/><text x="18" y="17" font-family="Playfair Display,Georgia,serif" font-size="5.2" font-weight="700" letter-spacing="0.8" fill="url(#lg-g)" text-anchor="middle">PEDEZ</text><line x1="10" y1="19" x2="26" y2="19" stroke="#2a2a2a" stroke-width="0.4"/><path d="M17.2,20.5 L16.8,11 L18,8 L19.2,11 L18.8,20.5 Z" fill="url(#lg-g)"/><path d="M17.6,20.5 L17.2,8.5 L18,6 L18.8,8.5 L18.4,20.5 Z" fill="#888" transform="rotate(34,18,18)"/><line x1="18" y1="22" x2="18" y2="5" stroke="#c9a84c" stroke-width="0.5" transform="rotate(194,18,18)"/><circle cx="18" cy="23" r="1.4" fill="#c9a84c" transform="rotate(194,18,18)"/><circle cx="18" cy="18" r="2.2" fill="#060606" stroke="url(#lg-b)" stroke-width="0.8"/><circle cx="18" cy="18" r="1" fill="#c9a84c"/><rect x="15.5" y="0.5" width="5" height="3" rx="1" fill="#0e0e0e" stroke="#222" stroke-width="0.4"/><rect x="15.5" y="32.5" width="5" height="3" rx="1" fill="#0e0e0e" stroke="#1a1a1a" stroke-width="0.4"/></svg><span style="font-family:Playfair Display,Georgia,serif;font-size:17px;font-weight:700;letter-spacing:5px;color:#f5f0e8">PEDEZ <span style="color:#c9a84c">W</span></span></a>
+
+  <div class="ar-tabs">
+    <button class="ar-tab on" id="tabSignin" onclick="switchTab('signin')">Sign In</button>
+    <button class="ar-tab" id="tabRegister" onclick="switchTab('register')">Create Account</button>
+  </div>
+
+  <!-- SIGN IN -->
+  <div class="ar-form on" id="formSignin">
+    <div class="error-msg" id="siError"></div>
+    <div class="fg">
+      <label class="flabel">Email Address</label>
+      <input class="finput" id="siEmail" type="email" placeholder="your@email.com" autocomplete="email">
+    </div>
+    <div class="fg">
+      <label class="flabel">Password</label>
+      <input class="finput" id="siPass" type="password" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <button class="btn-submit" onclick="doLogin()">Sign In</button>
+    <div class="form-divider" style="margin-top:22px">or</div>
+    <div class="form-alt">Admin? <a onclick="doAdminLogin()">Quick admin sign in →</a></div>
+    <div class="form-alt" style="margin-top:10px">Don't have an account? <a onclick="switchTab('register')">Create one</a></div>
+  </div>
+
+  <!-- REGISTER -->
+  <div class="ar-form" id="formRegister">
+    <div class="error-msg" id="rgError"></div>
+    <div class="success-msg" id="rgSuccess"></div>
+    <div class="fg">
+      <label class="flabel">Full Name</label>
+      <input class="finput" id="rgName" type="text" placeholder="Your full name" autocomplete="name">
+    </div>
+    <div class="fg">
+      <label class="flabel">Email Address</label>
+      <input class="finput" id="rgEmail" type="email" placeholder="your@email.com" autocomplete="email">
+    </div>
+    <div class="fg">
+      <label class="flabel">Phone Number</label>
+      <input class="finput" id="rgPhone" type="tel" placeholder="07XX XXX XXX">
+    </div>
+    <div class="fg">
+      <label class="flabel">Password</label>
+      <input class="finput" id="rgPass" type="password" placeholder="At least 6 characters" autocomplete="new-password">
+    </div>
+    <button class="btn-submit" onclick="doRegister()">Create Account — Get 200 Bonus Points</button>
+    <div class="form-alt" style="margin-top:16px">Already have an account? <a onclick="switchTab('signin')">Sign in</a></div>
+  </div>
+</div>
+
+<script>
+const API = window.location.origin + '/api';
+const $ = id => document.getElementById(id);
+
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3200);}
+
+function switchTab(tab){
+  document.querySelectorAll('.ar-tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.ar-form').forEach(f=>f.classList.remove('on'));
+  $('tab'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('on');
+  $('form'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('on');
+}
+
+function showErr(id,msg){const el=$(id);el.textContent=msg;el.style.display='block';}
+function hideErr(id){$(id).style.display='none';}
+
+async function doLogin(){
+  hideErr('siError');
+  const email=$('siEmail').value.trim(), pass=$('siPass').value;
+  if(!email||!pass){showErr('siError','Email and password are required');return;}
+  const btn=document.querySelector('#formSignin .btn-submit');btn.disabled=true;btn.textContent='Signing in...';
+  try{
+    const r=await fetch(API+'/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pass})});
+    const d=await r.json();
+    if(!r.ok)throw new Error(d.error);
+    localStorage.setItem('pz_token',d.token);
+    localStorage.setItem('pz_user',JSON.stringify(d.user));
+    toast('Welcome back, '+d.user.name+'!');
+    setTimeout(()=>window.location=d.user.role==='admin'?'/admin':'/',600);
+  }catch(e){showErr('siError',e.message);btn.disabled=false;btn.textContent='Sign In';}
+}
+
+async function doAdminLogin(){
+  $('siEmail').value='admin@pedezwatch.com';
+  $('siPass').value='admin123';
+  doLogin();
+}
+
+async function doRegister(){
+  hideErr('rgError');$('rgSuccess').style.display='none';
+  const name=$('rgName').value.trim(),email=$('rgEmail').value.trim(),phone=$('rgPhone').value.trim(),pass=$('rgPass').value;
+  if(!name||!email||!pass){showErr('rgError','Name, email and password are required');return;}
+  if(pass.length<6){showErr('rgError','Password must be at least 6 characters');return;}
+  const btn=document.querySelector('#formRegister .btn-submit');btn.disabled=true;btn.textContent='Creating account...';
+  try{
+    const r=await fetch(API+'/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,phone,password:pass})});
+    const d=await r.json();
+    if(!r.ok)throw new Error(d.error);
+    localStorage.setItem('pz_token',d.token);
+    localStorage.setItem('pz_user',JSON.stringify(d.user));
+    const s=$('rgSuccess');s.textContent='Account created! You earned 200 bonus points. Redirecting...';s.style.display='block';
+    setTimeout(()=>window.location='/',1200);
+  }catch(e){showErr('rgError',e.message);btn.disabled=false;btn.textContent='Create Account — Get 200 Bonus Points';}
+}
+
+// Enter key support
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Enter')return;
+  if($('formSignin').classList.contains('on'))doLogin();
+  else doRegister();
+});
+
+// Clock on watch
+function updateClock(){
+  const n=new Date(),cx=130,cy=165;
+  const ang=(d,l)=>{const r=(d-90)*Math.PI/180;return{x:cx+Math.cos(r)*l,y:cy+Math.sin(r)*l};};
+  const sh=ang(n.getSeconds()*6,40);
+  const sEl=document.getElementById('sH');if(sEl){sEl.setAttribute('x2',sh.x);sEl.setAttribute('y2',sh.y);}
+}
+updateClock();setInterval(updateClock,1000);
+
+// If already logged in, redirect
+if(localStorage.getItem('pz_token')&&localStorage.getItem('pz_user')){
+  const u=JSON.parse(localStorage.getItem('pz_user'));
+  if(u.role==='admin')window.location='/admin';
+  else window.location='/';
+}
+</script>
+</body>
+</html>
